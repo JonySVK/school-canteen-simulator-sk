@@ -1,0 +1,45 @@
+query GetAllItems @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  items {
+    id
+    name
+    type
+    description
+  }
+}
+
+query GetMySubmissions($userId: UUID!) @auth(level: USER) {
+  submissions(where: {userId: {eq: $userId}}) {
+    id
+    createdAt
+    result
+    userName
+    className
+    submissionItems {
+      item {
+        name
+        type
+      }
+      customInput
+    }
+  }
+}
+
+mutation CreateNewItem($name: String!, $type: String!, $description: String, $properties: String) @auth(level: USER) {
+  item_insert(data: {
+    name: $name,
+    type: $type,
+    createdAt_expr: "request.time",
+    description: $description,
+    properties: $properties
+  })
+}
+
+mutation CreateSubmission($result: String!, $userName: String, $className: String) @auth(level: USER) {
+  submission_insert(data: {
+    createdAt_expr: "request.time",
+    result: $result,
+    userId_expr: "auth.uid",
+    userName: $userName,
+    className: $className
+  })
+}

@@ -1,0 +1,37 @@
+type User @table {
+  name: String
+  className: String
+  createdAt: Timestamp!
+}
+
+type Item @table {
+  name: String!
+  type: String!
+  createdAt: Timestamp!
+  description: String
+  properties: String
+}
+
+type SimulatorConfig @table {
+  name: String!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+  description: String
+  rules: String
+  version: String
+}
+
+type Submission @table {
+  createdAt: Timestamp!
+  result: String!
+  user: User
+  userName: String
+  className: String
+}
+
+type SubmissionItem @table(key: ["submission", "item"]) {
+  submission: Submission!
+  item: Item!
+  createdAt: Timestamp!
+  customInput: String
+}

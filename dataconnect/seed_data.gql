@@ -1,0 +1,80 @@
+mutation SeedData @transaction @auth(level: USER, insecureReason: "Seed data mutation is only accessible to authenticated users for initial setup.") {
+  user_insertMany(data: [
+    {
+      id: "b4503714-22b9-46f9-8664-b040a430c51f",
+      name: "Alice Smith",
+      className: "Class A",
+      createdAt: "2024-01-01T00:00:00Z"
+    },
+    {
+      id: "a7e2d83c-1f6e-4b2a-8d1e-9c0f5b4a3d2c",
+      name: "Bob Johnson",
+      className: "Class B",
+      createdAt: "2024-01-02T00:00:00Z"
+    }
+  ])
+  item_insertMany(data: [
+    {
+      id: "c1b3e4f5-6a7b-8c9d-0e1f-2a3b4c5d6e7f",
+      name: "Apple",
+      type: "Fruit",
+      createdAt: "2024-01-03T00:00:00Z",
+      description: "Fresh red apple",
+      properties: "Organic"
+    },
+    {
+      id: "d2c4e6f8-0a1b-2c3d-4e5f-6a7b8c9d0e1f",
+      name: "Sandwich",
+      type: "Meal",
+      createdAt: "2024-01-04T00:00:00Z",
+      description: "Ham and cheese sandwich",
+      properties: "Gluten-free option available"
+    },
+    {
+      id: "e3d5f7a9-1b2c-3d4e-5f6a-7b8c9d0e1f2a",
+      name: "Juice Box",
+      type: "Drink",
+      createdAt: "2024-01-05T00:00:00Z",
+      description: "Orange juice",
+      properties: "No added sugar"
+    }
+  ])
+  submission_insertMany(data: [
+    {
+      id: "f4e6d8a0-1b2c-3d4e-5f6a-7b8c9d0e1f2a",
+      userId: "b4503714-22b9-46f9-8664-b040a430c51f",
+      userName: "Alice Smith",
+      className: "Class A",
+      createdAt: "2024-01-06T00:00:00Z",
+      result: "Submitted"
+    },
+    {
+      id: "0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d",
+      userId: "a7e2d83c-1f6e-4b2a-8d1e-9c0f5b4a3d2c",
+      userName: "Bob Johnson",
+      className: "Class B",
+      createdAt: "2024-01-07T00:00:00Z",
+      result: "Pending"
+    }
+  ])
+  submissionItem_insertMany(data: [
+    {
+      submissionId: "f4e6d8a0-1b2c-3d4e-5f6a-7b8c9d0e1f2a",
+      itemId: "c1b3e4f5-6a7b-8c9d-0e1f-2a3b4c5d6e7f",
+      createdAt: "2024-01-06T00:01:00Z",
+      customInput: "Red Apple"
+    },
+    {
+      submissionId: "f4e6d8a0-1b2c-3d4e-5f6a-7b8c9d0e1f2a",
+      itemId: "d2c4e6f8-0a1b-2c3d-4e5f-6a7b8c9d0e1f",
+      createdAt: "2024-01-06T00:02:00Z",
+      customInput: "Wheat Bread"
+    },
+    {
+      submissionId: "0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d",
+      itemId: "e3d5f7a9-1b2c-3d4e-5f6a-7b8c9d0e1f2a",
+      createdAt: "2024-01-07T00:01:00Z",
+      customInput: "Small"
+    }
+  ])
+}
