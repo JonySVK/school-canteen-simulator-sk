@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulátor školskej jedálne</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #9fd3c7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            color: #333;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 2vh;
+                }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .check-container {
+            margin-top: 1vh;
+            max-height: 60vh;
+            min-width: 40vw;
+            overflow-y: auto;
+        }
+
+        .norm {
+            font-size: 2vh;
+            margin-bottom: 1vh;
+        }
+
+        .norm .icon {
+            display: inline-block;
+            width: 2vh;
+            text-align: center;
+            margin-right: 1vh;
+            font-weight: bold;
+        }
+
+        .check-container {
+            margin-top: 2vh;
+            max-height: 40vh;
+            min-width: 40vw;
+            overflow-y: auto;
+        }
+
+        .norm {
+            font-size: 2vh;
+            margin-bottom: 1vh;
+        }
+
+        .toggle {
+            margin-top: 2vh;
+            cursor: pointer;
+        }
+
+        .footer-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2vh;
+            gap: 5vh;
+        }
+
+        .footer-buttons button {
+            padding: 15px 30px;
+            font-size: 2vh;
+            border: none;
+            border-radius: 12px;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 id="score">Tvoj jedálniček splnil 25 zo 180 noriem.</h1>
+        </div>
+
+        <div class="check-container">
+            <div id="failed-norms">
+                <!-- Nesplnené normy -->
+            </div>
+
+            <div id="toggle-succeeded" class="toggle">
+                <span id="toggle-btn">▼ Zobraziť splnené</span>
+                <div id="succeeded-norms" style="display:none;">
+                    <!-- Splnené normy -->
+                </div>
+            </div>
+        </div>
+
+        <h2>Tvoj jedálniček by jedáleň žiaľ nemohla uvariť.</h2>
+
+        <div class="footer-buttons">
+            <button onclick="location.href='3-soup.html'">SKÚSIŤ ZNOVA</button>
+            <button onclick="location.href='10-end1.html'">UKONČIŤ HRU</button>
+        </div>
+    </div>
+
+    <script>
+        // Príklad noriem zo stránky checking.html
+        const norms = [
+            { text: "Musí byť jedno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité jedlo.", passed: true },
+            { text: "Musí byť jedno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedgcbnfgnvbno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité jedlo.", passed: true },
+            { text: "Musí byť jedno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mdvdfvfväsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsitgfgdfé jedlo.", passed: true },
+            { text: "Musí byť jedno mäbfbfgsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsitn vb é jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité       vgjedlo.", passed: true },
+            { text: "Musí byť jedno bvcbthtmäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité jedlo.", passed: true },
+            { text: "Musí byť jedno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité jedlo.", passed: false },
+            { text: "Musí byť jedno mäsité jedlo.", passed: true },
+            { text: "Musí byť jedno mäsité jedlo.", passed: true }
+        ];
+
+        const failedContainer = document.getElementById("failed-norms");
+        const succeededContainer = document.getElementById("succeeded-norms");
+
+        norms.forEach(norm => {
+            const div = document.createElement("div");
+            div.className = "norm";
+
+            if (norm.passed) {
+                div.innerHTML = `✅ ${norm.text}`;
+                succeededContainer.appendChild(div);
+            } else {
+                div.innerHTML = `❌ ${norm.text}`;
+                failedContainer.appendChild(div);
+            }
+        });
+
+        const toggleBtn = document.getElementById("toggle-btn");
+        toggleBtn.addEventListener("click", () => {
+            const display = succeededContainer.style.display;
+            if (display === "none") {
+                succeededContainer.style.display = "block";
+                toggleBtn.textContent = "▲ Skryť splnené";
+            } else {
+                succeededContainer.style.display = "none";
+                toggleBtn.textContent = "▼ Zobraziť splnené";
+            }
+        });
+    </script>
+</body>
+</html>

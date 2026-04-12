@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulátor školskej jedálne</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 5vh;
+            font-family: Arial, sans-serif;
+            background-color: #9fd3c7;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-btn, .continue-btn {
+            padding: 2vh 3vh;
+            font-size: 3vh;
+            cursor: pointer;
+            border: none;
+            border-radius: 1vh;
+            background-color: #333;
+            color: white;
+        }
+
+        .meals-container {
+            margin-top: 2vh;
+            max-height: 50vh;
+            overflow-y: auto;
+            gap: 1vh;
+        }
+
+        .meal {
+            display: flex;
+            align-items: center;
+            border: 1px solid #333;
+            border-radius: 2vh;
+            padding: 1vh;
+            margin-bottom: 1vh;
+            background-color: white;
+            font-size: 3.5vh;
+        }
+
+
+        .meal img {
+            width: 10vh;
+            height: 10vh;
+            border-radius: 1vh;
+            margin-right: 2vh;
+            object-fit: cover;
+        }
+
+        .meal img:hover {
+            width: 20vh;
+            height: 20vh;
+        }
+
+        .drag-handle {
+            cursor: grab;
+            margin: 2vh;
+            font-size: 4vh;
+        }
+
+        .meal-info {
+            flex-grow: 1;
+        }
+
+        .meal-labels {
+            margin-left: 1vh;
+            font-weight: bold;
+        }
+
+        .days-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2.5vh;
+            font-size: 3vh;
+            gap: 2vh;
+        }
+
+        .day {
+            width: 18%;
+            min-height: 15vh;
+            border-radius: 2vh;
+            padding: 1vh;
+            text-align: center;
+            font-weight: bold;
+            background-color: #e0fff9;
+            position: relative;
+            border: 1vh dashed transparent;
+        }
+
+        .day:hover {
+            border-color: green;
+        }
+
+        .remove {
+            color: red;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 2.5vh;
+            color: #333;
+            width: 75vw;
+            line-height: 1.75;
+        }
+
+        h1 {
+            font-size: 6vh;
+            color: #333;
+            margin: 2vh 0;
+            width: 75vw;
+        }
+
+        a {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    
+        <div class="header">
+            <button class="back-btn" onclick="location.href='3-soup.html'">Späť</button>
+            <h1>Teraz vyber hlavné jedlo na každý deň...</h1>
+            <button class="continue-btn" onclick="location.href='5-drink.html'">POKRAČOVAŤ</button>
+        </div>
+
+        <div class="meals-container">
+            <!-- Tu sa dynamicky generujú jedlá -->
+        </div>
+
+        <div class="days-container">
+            <div class="day" data-day="Pondelok">Pondelok</div>
+            <div class="day" data-day="Utorok">Utorok</div>
+            <div class="day" data-day="Streda">Streda</div>
+            <div class="day" data-day="Štvrtok">Štvrtok</div>
+            <div class="day" data-day="Piatok">Piatok</div>
+        </div>
+
+        <p style="text-align: left;">Potiahnutím presuň Tebou vybrané hlavné jedlo do konkrétneho dňa.</p>
+
+        <script>
+            const meals = [
+                {
+                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
+                    name: "Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo",
+                    ingredients: "Pstruh, voda, korenie",
+                    procedure: "Postup 1",
+                    labels: ["VIAC"]
+                },
+                {
+                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
+                    name: "Ryba so zemiakov",
+                    ingredients: "Ryba, zemiak, mlieko",
+                    procedure: "Postup 2",
+                    labels: ["VIAC"]
+                },{
+                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
+                    name: "Knedlo vepřo zelo",
+                    ingredients: "Pstruh, voda, korenie",
+                    procedure: "Postup 1",
+                    labels: ["VIAC"]
+                },
+                {
+                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
+                    name: "Ryba so zemiakov",
+                    ingredients: "Ryba, zemiak, mlieko",
+                    procedure: "Postup 2",
+                    labels: ["VIAC"]
+                },{
+                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
+                    name: "Knedlo vepřo zelo",
+                    ingredients: "Pstruh, voda, korenie",
+                    procedure: "Postup 1",
+                    labels: ["VIAC"]
+                },
+                {
+                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
+                    name: "Ryba so zemiakov",
+                    ingredients: "Ryba, zemiak, mlieko",
+                    procedure: "Postup 2",
+                    labels: ["VIAC"]
+                },{
+                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
+                    name: "Knedlo vepřo zelo",
+                    ingredients: "Pstruh, voda, korenie",
+                    procedure: "Postup 1",
+                    labels: ["VIAC"]
+                },
+                {
+                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
+                    name: "Ryba so zemiakov",
+                    ingredients: "Ryba, zemiak, mlieko",
+                    procedure: "Postup 2",
+                    labels: ["VIAC"]
+                },{
+                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
+                    name: "Knedlo vepřo zelo",
+                    ingredients: "Pstruh, voda, korenie",
+                    procedure: "Postup 1",
+                    labels: ["VIAC"]
+                },
+                {
+                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
+                    name: "Ryba so zemiakov",
+                    ingredients: "Ryba, zemiak, mlieko",
+                    procedure: "Postup 2",
+                    labels: ["VIAC"]
+                },{
+                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
+                    name: "Knedlo vepřo zelo",
+                    ingredients: "Pstruh, voda, korenie",
+                    procedure: "Postup 1",
+                    labels: ["VIAC"]
+                },
+                {
+                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
+                    name: "Ryba so zemiakov",
+                    ingredients: "Ryba, zemiak, mlieko",
+                    procedure: "Postup 2",
+                    labels: ["VIAC"]
+                },
+                // Tu môžeš pridať ďalšie jedlá
+            ];
+
+            const mealsContainer = document.querySelector(".meals-container");
+
+            function truncate(text, max) {
+                return text.length > max ? text.slice(0, max) + "..." : text;
+            }
+
+            meals.forEach((meal, index) => {
+                const mealDiv = document.createElement("div");
+                mealDiv.className = "meal";
+                mealDiv.setAttribute("draggable", "true");
+                mealDiv.dataset.index = index;
+
+                mealDiv.innerHTML = `
+                    <div class="drag-handle">⋮</div>
+                    <img src="${meal.img}" alt="${meal.name}">
+                    <div class="meal-info">
+                        <div class="meal-name" style="font-weight: bold;">${truncate(meal.name, 80)}</div>
+                        <div class="meal-ingredients">${truncate(meal.ingredients, 80)}</div>
+                    </div>
+                `;
+
+                mealsContainer.appendChild(mealDiv);
+
+                mealDiv.addEventListener("dragstart", (e) => {
+                    e.dataTransfer.setData("text/plain", index);
+                });
+            });
+
+            const days = document.querySelectorAll(".day");
+
+            days.forEach(day => {
+                day.addEventListener("dragover", (e) => e.preventDefault());
+
+                day.addEventListener("drop", (e) => {
+                    e.preventDefault();
+                    const index = e.dataTransfer.getData("text/plain");
+                    const meal = meals[index];
+
+                    day.innerHTML = `
+                        ${day.dataset.day}<br>
+                        Hl. jedlo: <span class="remove">✖</span><br>
+                        <strong>${meal.name}</strong>
+                    `;
+
+                    day.querySelector(".remove").addEventListener("click", () => {
+                        day.innerHTML = day.dataset.day;
+                    });
+                });
+            });
+        </script>
+</body>
+</html>

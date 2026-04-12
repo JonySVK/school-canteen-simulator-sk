@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulátor školskej jedálne</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 5vh;
+            font-family: Arial, sans-serif;
+            background-color: #9fd3c7;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 2vh 3vh;
+            font-size: 3vh;
+            cursor: pointer;
+            border: none;
+            border-radius: 1vh;
+            background-color: #333;
+            color: white;
+        }
+
+        .menu-container {
+            margin-top: 2vh;
+            max-height: 70vh;
+            overflow-y: auto;
+            gap: 1vh;
+        }
+
+        .menu-day {
+            border: 2px solid #333;
+            border-radius: 1vh;
+            padding: 2vh;
+            margin-bottom: 1vh;
+            background-color: #e0fff9;
+            font-size: 3vh;
+        }
+
+         p {
+            font-size: 2.5vh;
+            color: #333;
+            width: 75vw;
+            line-height: 1.75;
+        }
+
+        h1 {
+            font-size: 6vh;
+            color: #333;
+            margin: 2vh 0;
+            width: 75vw;
+        }
+
+        a {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-btn" onclick="location.href='5-drink.html'">Späť</button>
+        <h1>Toto je jedálniček, ktorý si vybral/a:</h1>
+        <button class="continue-btn" onclick="location.href='7-check.html'">POTVRDIŤ</button>
+    </div>
+
+    <div class="menu-container">
+        <!-- Tu sa dynamicky generujú dni -->
+    </div>
+
+    <p style="text-align: left;">Ak chceš zmeniť svoj výber, môžeš sa vrátiť na predchádzajúce stránky pomocou tlačidla "Späť".</p>
+
+    <script>
+        const weeklyMenu = [
+            { day: "Pondelok", soup: "Rybacia polievka", main: "Vepřo knedlo zelo", drink: "CocaCola" },
+            { day: "Utorok", soup: "Rybacia polievka", main: "Vepřo knedlo zelo", drink: "CocaCola" },
+            { day: "Streda", soup: "Rybacia polievka", main: "Vepřo knedlo zelo", drink: "CocaCola" },
+            { day: "Štvrtok", soup: "Rybacia polievka", main: "Vepřo knedlo zelo", drink: "CocaCola" },
+            { day: "Piatok", soup: "Rybacia polievka", main: "Vepřo knedlo zelo", drink: "CocaCola" },
+        ];
+
+        const container = document.querySelector(".menu-container");
+
+        weeklyMenu.forEach(item => {
+            const dayDiv = document.createElement("div");
+            dayDiv.className = "menu-day";
+            dayDiv.innerHTML = `
+                <strong>${item.day}</strong><br>
+                <span><strong>Polievka:</strong> ${item.soup}</span><br>
+                <span><strong>Hl. jedlo:</strong> ${item.main}</span><br>
+                <span><strong>Nápoj:</strong> ${item.drink}</span>
+            `;
+            container.appendChild(dayDiv);
+        });
+    </script>
+</body>
+</html>

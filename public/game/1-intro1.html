@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulátor školskej jedálne</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1 id="introText" style="width: 70vw;"></h1>
+
+    <a href="2-intro2.html">
+        <button>POKRAČOVAŤ</button>
+    </a>
+</div>
+
+<script>
+// načítanie mena zo storage
+const meno = localStorage.getItem("meno");
+
+const textElement = document.getElementById("introText");
+
+if (meno && meno.trim() !== "") {
+    textElement.innerHTML = `[${meno}], Tvojou úlohou je vytvoriť jedálny lístok pre školskú jedáleň... Zvládneš to?`;
+} else {
+    textElement.innerHTML = `Tvojou úlohou je vytvoriť jedálny lístok pre školskú jedáleň... Zvládneš to?`;
+}
+</script>
+
+</body>
+</html>

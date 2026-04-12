@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulátor školskej jedálne</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #9fd3c7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2vh;
+        }
+
+        h1 {
+            font-size: 5vh;
+            color: #333;
+            margin: 2vh 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Hrať ako žiak</h1>
+
+    <form id="studentForm">
+        <input type="text" placeholder="Meno *" required>
+        <input type="text" placeholder="Trieda *" required>
+        <input type="number" placeholder="Kód (ak si dostal)">
+        
+        <button type="submit">POKRAČOVAŤ</button>
+    </form>
+</div>
+
+<script>
+document.getElementById("studentForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const inputs = this.querySelectorAll("input");
+    const meno = inputs[0].value;
+    const trieda = inputs[1].value;
+    const kod = inputs[2].value;
+
+    if (!meno || !trieda) {
+        alert("Vyplň povinné polia!");
+        return;
+    }
+
+    // zatiaľ len test
+    console.log({ meno, trieda, kod });
+
+    // presmerovanie (placeholder)
+    window.location.href = "https://google.com";
+});
+</script>
+
+</body>
+</html>

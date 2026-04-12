@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulátor školskej jedálne</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #9fd3c7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            color: #333;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 2vh;
+                }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .check-container {
+            margin-top: 1vh;
+            max-height: 60vh;
+            min-width: 40vw;
+            overflow-y: auto;
+        }
+
+        .norm {
+            font-size: 2vh;
+            margin-bottom: 1vh;
+        }
+
+        .norm .icon {
+            display: inline-block;
+            width: 2vh;
+            text-align: center;
+            margin-right: 1vh;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Prebieha kontrola<span id="dots">...</span></h1>
+        </div>
+
+        <div class="check-container">
+            <!-- Normy sa dynamicky vložia sem -->
+        </div>
+    </div>
+
+    <script>
+        // Pole noriem
+        const norms = [
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: false },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: null },
+            { text: "Musí byť jedno mäsité jedlo.", condition: null },
+            { text: "Musí byť jedno mädccccccsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: false },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: null },
+            { text: "Musí byť jedno msddddäsité jedlo.", condition: null },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: false },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsdddsité jedlo.", condition: null },
+            { text: "Musí byť jedno mäsité jedlo.", condition: null },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: false },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: null },
+            { text: "Musí byť jedno mäsité jedlo.", condition: null },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: false },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: null },
+            { text: "Musí byť jedno mäsité jedlo.", condition: null },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: false },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: true },
+            { text: "Musí byť jedno mäsité jedlo.", condition: null },
+            { text: "Musí byť jedno mäsité jedlo.", condition: null },
+            { text: "Musí byť jedno mäsité jedlo.", condition: null },
+            { text: "Musí byť jedno mäsité jedlo.", condition: null }
+        ];
+
+        const container = document.querySelector(".check-container");
+
+        // Vytvoríme prvky
+        norms.forEach(norm => {
+            const div = document.createElement("div");
+            div.className = "norm";
+            div.innerHTML = `<span class="icon">⚪</span> ${norm.text}`;
+            container.appendChild(div);
+        });
+
+        // Animácia bodiek
+        const dots = document.getElementById("dots");
+        let dotCount = 0;
+        setInterval(() => {
+            dotCount = (dotCount + 1) % 4;
+            dots.textContent = '.'.repeat(dotCount);
+        }, 500);
+
+        // Funkcia na kontrolu
+        async function runChecks() {
+            for (let i = 0; i < norms.length; i++) {
+                const div = container.children[i];
+                const icon = div.querySelector(".icon");
+
+                // točiaci sa krúžok
+                icon.textContent = "⏳";
+                div.scrollIntoView({ behavior: "smooth", block: "center" });
+
+                // simulujeme kontrolu 0,25 sekundy
+                await new Promise(r => setTimeout(r, 250));
+
+                // výsledok kontroly
+                if (norms[i].condition === true) icon.textContent = "✅";
+                else if (norms[i].condition === false) icon.textContent = "❌";
+                else icon.textContent = "⚪";
+            }
+            window.location.href = "9-result.html";
+        }
+
+        runChecks();
+    </script>
+</body>
+</html>

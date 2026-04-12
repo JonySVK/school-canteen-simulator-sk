@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulátor školskej jedálne</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #9fd3c7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2vh;
+        }
+
+        img {
+            width: 20vw;
+        }
+
+        h1 {
+            font-size: 6vh;
+            color: #333;
+            margin: 2vh 0;
+        }
+
+        .main-btn {
+            background: #333;
+            color: white;
+            padding: 3vh 6vh;
+            font-size: 3vh;
+            border-radius: 3vh;
+            border: none;
+            cursor: pointer;
+        }
+
+        .main-btn:hover {
+            opacity: 0.9;
+        }
+
+        .link {
+            margin-top: 2vh;
+            text-decoration: underline;
+            color: #333;
+            cursor: pointer;
+            font-size: 3vh;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 3vh;
+            font-size: 2vh;
+            color: #333;
+        }
+
+        .footer a {
+            color: #333;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- obrázok -->
+    <img src="food.svg" alt="jedlo">
+
+    <!-- nadpis -->
+    <h1>Simulátor školskej jedálne</h1>
+
+    <!-- button -->
+    <button class="main-btn" onclick="startGame()">SPUSTIŤ HRU</button>
+
+    <!-- link -->
+    <div class="link" onclick="about()">O hre</div>
+
+</div>
+
+<!-- footer -->
+<div class="footer">
+    Vytvorené v rámci programov <a href="https://zelenaskola.sk" target="_blank">Zelená škola</a> a <a href="https://www.greenfluenceri.sk" target="_blank">Greenfluenceri</a>.<br>
+    © <a href="https://github.com/JonySVK" target="_blank">Ján Ivičič</a> 2026 | Všetky práva vyhradené. | Kontakt: <a href="mailto:zelena.gercenka@svr.sk">zelena.gercenka@svr.sk</a> | ver1.0
+</div>
+
+<script>
+function startGame() {
+    window.location.href = "game/1-intro1.html";
+}
+
+function about() {
+    window.location.href = "about.html";
+}
+</script>
+
+</body>
+</html>
