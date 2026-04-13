@@ -61,6 +61,7 @@
             bottom: 3vh;
             font-size: 2vh;
             color: #333;
+            line-height: 1.5;
         }
 
         .footer a {
@@ -83,14 +84,15 @@
     <button class="main-btn" onclick="startGame()">SPUSTIŤ HRU</button>
 
     <!-- link -->
+    <div class="link" onclick="student()">Hrať ako žiak</div>
     <div class="link" onclick="about()">O hre</div>
 
 </div>
 
 <!-- footer -->
 <div class="footer">
-    Vytvorené v rámci programov <a href="https://zelenaskola.sk" target="_blank">Zelená škola</a> a <a href="https://www.greenfluenceri.sk" target="_blank">Greenfluenceri</a>.<br>
-    © <a href="https://github.com/JonySVK" target="_blank">Ján Ivičič</a> 2026 | Všetky práva vyhradené. | Kontakt: <a href="mailto:zelena.gercenka@svr.sk">zelena.gercenka@svr.sk</a> | ver1.0
+    Vytvorené na základe <a href="https://www.minedu.sk/materialno-spotrebne-normy-a-receptury-pre-skolske-stravovanie-revizia-2024-s-ucinnostou-od-1-9-2024/" target="_blank">MSN pre školské stravovanie (revízia 2024)</a> vydaných MŠVVaM SR.<br>Hra vznikla v rámci programov <a href="https://zelenaskola.sk" target="_blank">Zelená škola</a> a <a href="https://www.greenfluenceri.sk" target="_blank">Greenfluenceri</a>.<br>
+    © <a href="https://github.com/JonySVK" target="_blank">Ján Ivičič</a> 2026 | Všetky práva vyhradené. | Kontakt: <a href="mailto:ivicic.dev@gmail.com">ivicic.dev@gmail.com</a> | ver1.0
 </div>
 
 <script>
@@ -100,6 +102,10 @@ function startGame() {
 
 function about() {
     window.location.href = "about.html";
+}
+
+function student() {
+    window.location.href = "student-login.html";
 }
 </script>
 

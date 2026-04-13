@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulátor školskej jedálne</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <style>
         body {
             margin: 0;
@@ -83,10 +83,10 @@
         }
 
         .footer-buttons button {
-            padding: 15px 30px;
+            padding: 2vh 3vh;
             font-size: 2vh;
             border: none;
-            border-radius: 12px;
+            border-radius: 2vh;
             background-color: #333;
             color: white;
             cursor: pointer;
@@ -96,23 +96,23 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1 id="score">Tvoj jedálniček splnil 25 zo 180 noriem.</h1>
+            <h1 id="score"></h1>
         </div>
 
-        <div class="check-container">
+        <div class="check-container" style="font-size: 3vh; color: #333;">
             <div id="failed-norms">
                 <!-- Nesplnené normy -->
             </div>
 
             <div id="toggle-succeeded" class="toggle">
-                <span id="toggle-btn">▼ Zobraziť splnené</span>
+                <span id="toggle-btn" style="font-size: 2vh; color: #333;">▼ Zobraziť splnené</span>
                 <div id="succeeded-norms" style="display:none;">
                     <!-- Splnené normy -->
                 </div>
             </div>
         </div>
 
-        <h2>Tvoj jedálniček by jedáleň žiaľ nemohla uvariť.</h2>
+        <h2 id="result-message" style="font-size: 4vh;"></h2>
 
         <div class="footer-buttons">
             <button onclick="location.href='3-soup.html'">SKÚSIŤ ZNOVA</button>
@@ -152,6 +152,17 @@
 
         const failedContainer = document.getElementById("failed-norms");
         const succeededContainer = document.getElementById("succeeded-norms");
+
+        const totalNorms = norms.length;
+        const passedNorms = norms.filter(n => n.passed).length;
+
+        document.getElementById("score").textContent = `Tvoj jedálniček splnil ${passedNorms} zo ${totalNorms} noriem.`;
+
+        if (totalNorms === passedNorms) {
+            document.getElementById("result-message").textContent = "Gratulujeme! Tvoj jedálniček splnil všetky normy! Jedáleň by ho mohla uvariť.";
+        } else {
+            document.getElementById("result-message").textContent = "Tvoj jedálniček by jedáleň žiaľ nemohla uvariť. Nesplnil si všetky normy.";
+        }
 
         norms.forEach(norm => {
             const div = document.createElement("div");

@@ -133,7 +133,7 @@
         <div class="header">
             <button class="back-btn" onclick="location.href='3-soup.html'">Späť</button>
             <h1>Teraz vyber hlavné jedlo na každý deň...</h1>
-            <button class="continue-btn" onclick="location.href='5-drink.html'">POKRAČOVAŤ</button>
+            <button class="continue-btn" onclick="nextPage()">POKRAČOVAŤ</button>
         </div>
 
         <div class="meals-container">
@@ -264,6 +264,8 @@
 
             const days = document.querySelectorAll(".day");
 
+            let mealData = {};
+
             days.forEach(day => {
                 day.addEventListener("dragover", (e) => e.preventDefault());
 
@@ -272,17 +274,42 @@
                     const index = e.dataTransfer.getData("text/plain");
                     const meal = meals[index];
 
+                    mealData[day.dataset.day] = meal;
+
                     day.innerHTML = `
                         ${day.dataset.day}<br>
                         Hl. jedlo: <span class="remove">✖</span><br>
                         <strong>${meal.name}</strong>
                     `;
 
+                    
+
                     day.querySelector(".remove").addEventListener("click", () => {
                         day.innerHTML = day.dataset.day;
                     });
                 });
             });
+
+            function nextPage() {
+                // Tu môžeš uložiť výber do localStorage alebo poslať na server
+                let monday = mealData["Pondelok"] ? mealData["Pondelok"].name : "x";
+                let tuesday = mealData["Utorok"] ? mealData["Utorok"].name : "x";
+                let wednesday = mealData["Streda"] ? mealData["Streda"].name : "x";   
+                let thursday = mealData["Štvrtok"] ? mealData["Štvrtok"].name : "x";
+                let friday = mealData["Piatok"] ? mealData["Piatok"].name : "x";
+
+                if (monday === "x" || tuesday === "x" || wednesday === "x" || thursday === "x" || friday === "x") {
+                    alert("Nevybral si hlavné jedlo na všetky dni!");
+                } else {
+                    localStorage.setItem("mondayMainCourse", monday);
+                    localStorage.setItem("tuesdayMainCourse", tuesday);
+                    localStorage.setItem("wednesdayMainCourse", wednesday);
+                    localStorage.setItem("thursdayMainCourse", thursday);
+                    localStorage.setItem("fridayMainCourse", friday);
+
+                    window.location.href = "5-drink.html";
+                }
+            }
         </script>
 </body>
 </html>

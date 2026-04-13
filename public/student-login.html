@@ -29,14 +29,35 @@
             color: #333;
             margin: 2vh 0;
         }
+
+        .back-btn, .continue-btn {
+            padding: 2vh 3vh;
+            font-size: 2vh;
+            cursor: pointer;
+            border: none;
+            border-radius: 1vh;
+            background-color: #333;
+            color: white;
+            position: absolute;
+            top: 2vh;
+            left: 2vh;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <button class="back-btn" onclick="location.href='index.html'">Späť</button>
+    
     <h1>Hrať ako žiak</h1>
 
+    <p style="margin-top: -1.5vh;">Ako žiak sa do hry prihlasuj iba v prípade, že ťa na to vyzvala Tvoja škola.<br>V opačnom prípade pokračuj <a href="game/1-intro1.html">sem a začni hru</a>.</p>
+
     <form id="studentForm">
+        <select required>
+            <option value="" disabled>Vyber školu *</option>
+            <option value="Spojená škola Svätej Rodiny" selected>Spojená škola Svätej Rodiny</option>
+        </select>
         <input type="text" placeholder="Meno *" required>
         <input type="text" placeholder="Trieda *" required>
         <input type="number" placeholder="Kód (ak si dostal)">
@@ -50,20 +71,23 @@ document.getElementById("studentForm").addEventListener("submit", function(e) {
     e.preventDefault();
 
     const inputs = this.querySelectorAll("input");
-    const meno = inputs[0].value;
-    const trieda = inputs[1].value;
-    const kod = inputs[2].value;
+    const skola = inputs[0].value;
+    const meno = inputs[1].value;
+    const trieda = inputs[2].value;
+    const kod = inputs[3].value;
 
     if (!meno || !trieda) {
         alert("Vyplň povinné polia!");
         return;
     }
 
-    // zatiaľ len test
-    console.log({ meno, trieda, kod });
+    localStorage.setItem("studentSchool", skola);
+    localStorage.setItem("studentName", meno);
+    localStorage.setItem("studentClass", trieda);
+    localStorage.setItem("studentCode", kod);
 
     // presmerovanie (placeholder)
-    window.location.href = "https://google.com";
+    window.location.href = "game/1-intro1.html";
 });
 </script>
 

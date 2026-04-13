@@ -82,11 +82,11 @@
 
     <script>
         const weeklyMenu = [
-            { day: "Pondelok", soup: "Rybacia polievka", main: "Vepřo knedlo zelo", drink: "CocaCola" },
-            { day: "Utorok", soup: "Rybacia polievka", main: "Vepřo knedlo zelo", drink: "CocaCola" },
-            { day: "Streda", soup: "Rybacia polievka", main: "Vepřo knedlo zelo", drink: "CocaCola" },
-            { day: "Štvrtok", soup: "Rybacia polievka", main: "Vepřo knedlo zelo", drink: "CocaCola" },
-            { day: "Piatok", soup: "Rybacia polievka", main: "Vepřo knedlo zelo", drink: "CocaCola" },
+            { day: "Pondelok", soup: localStorage.getItem("mondaySoup"), main: localStorage.getItem("mondayMainCourse"), drink: localStorage.getItem("mondayDrink") },
+            { day: "Utorok", soup: localStorage.getItem("tuesdaySoup"), main: localStorage.getItem("tuesdayMainCourse"), drink: localStorage.getItem("tuesdayDrink") },
+            { day: "Streda", soup: localStorage.getItem("wednesdaySoup"), main: localStorage.getItem("wednesdayMainCourse"), drink: localStorage.getItem("wednesdayDrink") },
+            { day: "Štvrtok", soup: localStorage.getItem("thursdaySoup"), main: localStorage.getItem("thursdayMainCourse"), drink: localStorage.getItem("thursdayDrink") },
+            { day: "Piatok", soup: localStorage.getItem("fridaySoup"), main: localStorage.getItem("fridayMainCourse"), drink: localStorage.getItem("fridayDrink") },
         ];
 
         const container = document.querySelector(".menu-container");

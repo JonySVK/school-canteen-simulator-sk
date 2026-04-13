@@ -133,7 +133,7 @@
         <div class="header">
             <button class="back-btn" onclick="location.href='4-main-course.html'">Späť</button>
             <h1>Teraz vyber nápoj na každý deň...</h1>
-            <button class="continue-btn" onclick="location.href='6-summary.html'">POKRAČOVAŤ</button>
+            <button class="continue-btn" onclick="nextPage()">POKRAČOVAŤ</button>
         </div>
 
         <div class="meals-container">
@@ -264,6 +264,8 @@
 
             const days = document.querySelectorAll(".day");
 
+            let mealData = {};
+
             days.forEach(day => {
                 day.addEventListener("dragover", (e) => e.preventDefault());
 
@@ -271,6 +273,8 @@
                     e.preventDefault();
                     const index = e.dataTransfer.getData("text/plain");
                     const meal = meals[index];
+
+                    mealData[day.dataset.day] = meal;
 
                     day.innerHTML = `
                         ${day.dataset.day}<br>
@@ -283,6 +287,27 @@
                     });
                 });
             });
+
+            function nextPage() {
+                // Tu môžeš uložiť výber do localStorage alebo poslať na server
+                let monday = mealData["Pondelok"] ? mealData["Pondelok"].name : "x";
+                let tuesday = mealData["Utorok"] ? mealData["Utorok"].name : "x";
+                let wednesday = mealData["Streda"] ? mealData["Streda"].name : "x";   
+                let thursday = mealData["Štvrtok"] ? mealData["Štvrtok"].name : "x";
+                let friday = mealData["Piatok"] ? mealData["Piatok"].name : "x";
+
+                if (monday === "x" || tuesday === "x" || wednesday === "x" || thursday === "x" || friday === "x") {
+                    alert("Nevybral si nápoj na všetky dni!");
+                } else {
+                    localStorage.setItem("mondayDrink", monday);
+                    localStorage.setItem("tuesdayDrink", tuesday);
+                    localStorage.setItem("wednesdayDrink", wednesday);
+                    localStorage.setItem("thursdayDrink", thursday);
+                    localStorage.setItem("fridayDrink", friday);
+
+                    window.location.href = "6-summary.html";
+                }
+            }
         </script>
 </body>
 </html>
