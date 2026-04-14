@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <title>Simulátor školskej jedálne</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <link rel="stylesheet" href="style.css">
     <style>
         body {
@@ -132,8 +132,8 @@
 <body>
     
         <div class="header">
-            <button class="back-btn" onclick="location.href='4-main-course.html'">Späť</button>
-            <h1>Teraz vyber nápoj na každý deň...</h1>
+            <button class="back-btn" onclick="location.href='03-soup.html'">Späť</button>
+            <h1>Teraz vyber hlavné jedlo na každý deň...</h1>
             <button class="continue-btn" onclick="nextPage()">POKRAČOVAŤ</button>
         </div>
 
@@ -149,7 +149,7 @@
             <div class="day" data-day="Piatok">Piatok</div>
         </div>
 
-        <p style="text-align: left;">Potiahnutím presuň Tebou vybraný nápoj do konkrétneho dňa.</p>
+        <p style="text-align: left;">Potiahnutím presuň Tebou vybrané hlavné jedlo do konkrétneho dňa.</p>
 
         <script>
             const meals = [
@@ -279,9 +279,11 @@
 
                     day.innerHTML = `
                         ${day.dataset.day}<br>
-                        Nápoj: <span class="remove">✖</span><br>
+                        Hl. jedlo: <span class="remove">✖</span><br>
                         <strong>${meal.name}</strong>
                     `;
+
+                    
 
                     day.querySelector(".remove").addEventListener("click", () => {
                         day.innerHTML = day.dataset.day;
@@ -298,15 +300,15 @@
                 let friday = mealData["Piatok"] ? mealData["Piatok"].name : "x";
 
                 if (monday === "x" || tuesday === "x" || wednesday === "x" || thursday === "x" || friday === "x") {
-                    alert("Nevybral si nápoj na všetky dni!");
+                    alert("Nevybral si hlavné jedlo na všetky dni!");
                 } else {
-                    localStorage.setItem("mondayDrink", monday);
-                    localStorage.setItem("tuesdayDrink", tuesday);
-                    localStorage.setItem("wednesdayDrink", wednesday);
-                    localStorage.setItem("thursdayDrink", thursday);
-                    localStorage.setItem("fridayDrink", friday);
+                    localStorage.setItem("mondayMainCourse", monday);
+                    localStorage.setItem("tuesdayMainCourse", tuesday);
+                    localStorage.setItem("wednesdayMainCourse", wednesday);
+                    localStorage.setItem("thursdayMainCourse", thursday);
+                    localStorage.setItem("fridayMainCourse", friday);
 
-                    window.location.href = "6-summary.html";
+                    window.location.href = "05-drink.html";
                 }
             }
         </script>
