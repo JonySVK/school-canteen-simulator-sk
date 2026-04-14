@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulátor školskej jedálne</title>
-    <link rel="icon" type="image/x-icon" href="../favicon.ico">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            margin: 5vh;
-            font-family: Arial, sans-serif;
-            background-color: #9fd3c7;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulátor školskej jedálne</title>
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
 
-        .header {
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+
+<style>
+body {
+    margin: 5vh;
+    font-family: Arial, sans-serif;
+    background-color: #9fd3c7;
+    text-align: center;
+}
+
+.header {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -33,281 +32,220 @@
             color: white;
         }
 
-        .meals-container {
-            margin-top: 2vh;
-            max-height: 50vh;
-            overflow-y: auto;
-            gap: 1vh;
-        }
+.meals-container {
+    margin-top: 2vh;
+    max-height: 50vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+}
 
-        .meal {
-            display: flex;
-            align-items: center;
-            border: 1px solid #333;
-            border-radius: 2vh;
-            padding: 1vh;
-            margin-bottom: 1vh;
-            background-color: white;
-            font-size: 3.5vh;
-        }
+.meal {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 2vh;
+    margin-bottom: 1vh;
+    padding: 1vh;
+    font-size: 3vh;
+    touch-action: manipulation;
+}
 
+.meal img {
+    width: 10vh;
+    height: 10vh;
+    border-radius: 1vh;
+    margin-right: 2vh;
+}
 
-        .meal img {
-            width: 10vh;
-            height: 10vh;
-            border-radius: 1vh;
-            margin-right: 2vh;
-            object-fit: cover;
-        }
+.drag-handle {
+    cursor: grab;
+    font-size: 4vh;
+    margin: 2vh;
+    user-select: none;
+    touch-action: none;
+}
 
-        .meal img:hover {
-            width: 20vh;
-            height: 20vh;
-        }
+.days-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2vh;
+}
 
-        .drag-handle {
-            cursor: grab;
-            margin: 2vh;
-            font-size: 4vh;
-        }
+.day {
+    width: 18%;
+    min-height: 15vh;
+    background: #e0fff9;
+    border-radius: 2vh;
+    padding: 1vh;
+    font-size: 3vh;
+    line-height: 1.5;
+}
 
-        .meal-info {
-            flex-grow: 1;
-        }
+.day-name {
+    font-size: 3vh;
+    margin-bottom: 1vh;
+}
 
-        .meal-labels {
-            margin-left: 1vh;
-            font-weight: bold;
-        }
+.remove {
+    color: red;
+    cursor: pointer;
+}
 
-        .days-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2.5vh;
-            font-size: 3vh;
-            gap: 2vh;
-        }
-
-        .day {
-            width: 18%;
-            min-height: 15vh;
-            border-radius: 2vh;
-            padding: 1vh;
-            text-align: center;
-            font-weight: bold;
-            background-color: #e0fff9;
-            position: relative;
-            border: 1vh dashed transparent;
-        }
-
-        .day:hover {
-            border-color: green;
-        }
-
-        .remove {
-            color: red;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        p {
-            font-size: 2.5vh;
-            color: #333;
-            width: 75vw;
-            line-height: 1.75;
-        }
-
-        h1 {
-            font-size: 6vh;
-            color: #333;
-            margin: 2vh 0;
-            width: 75vw;
-        }
-
-        a {
-            color: #333;
-        }
-    </style>
+p {
+    font-size: 2.5vh;
+    color: #333;
+}
+</style>
 </head>
+
 <body>
-    
-        <div class="header">
-            <h1>Teraz vyber polievku na každý deň...</h1>
-            <button class="continue-btn" onclick="nextPage()">POKRAČOVAŤ</button>
+
+<div class="header">
+    <button class="back-btn" onclick="window.location.href = '02-intro2.html'">Späť</button>
+    <h1 style="text-align: center;">Vyber polievku na každý deň.</h1>
+    <button class="continue-btn" onclick="nextPage()">Pokračovať</button>
+</div>
+
+<div class="meals-container"></div>
+
+<div class="days-container">
+    <div class="day" data-day="Pondelok"><span class="day-name">Pondelok</span></div>
+    <div class="day" data-day="Utorok"><span class="day-name">Utorok</span></div>
+    <div class="day" data-day="Streda"><span class="day-name">Streda</span></div>
+    <div class="day" data-day="Štvrtok"><span class="day-name">Štvrtok</span></div>
+    <div class="day" data-day="Piatok"><span class="day-name">Piatok</span></div>
+</div>
+
+<p>Potiahnutím presuň Tebou vybranú polievku do konkrétneho dňa.</p>
+
+<script>
+const meals = [
+    { name: "Polievka 1", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievsfsg rfwedwwfzýdscgh uidbsgfud ihuszvgd rawuehduc szvgrzýdgzuc svdfka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
+    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" }
+];
+
+let mealData = {
+    Pondelok: null,
+    Utorok: null,
+    Streda: null,
+    Štvrtok: null,
+    Piatok: null
+};
+
+const mealsContainer = document.querySelector(".meals-container");
+
+/* RENDER meals */
+meals.forEach((meal, index) => {
+    const div = document.createElement("div");
+    div.className = "meal";
+    div.dataset.index = index;
+
+    div.innerHTML = `
+        <div class="drag-handle">⋮</div>
+        <img src="${meal.img}">
+        <div>${meal.name}</div>
+    `;
+
+    mealsContainer.appendChild(div);
+});
+
+/* SOURCE */
+new Sortable(mealsContainer, {
+    group: { name: "meals", pull: "clone", put: false },
+    sort: false,
+    animation: 150,
+    delay: 120,
+    delayOnTouchOnly: true
+});
+
+/* DAYS */
+document.querySelectorAll(".day").forEach(day => {
+
+    new Sortable(day, {
+        group: "meals",
+        animation: 150,
+        handle: ".drag-handle",
+
+        delay: 120,
+        delayOnTouchOnly: true,
+
+        forceFallback: false,   // 🔥 KLÚČOVÉ FIX
+
+        onAdd: function (evt) {
+
+            const index = evt.item.dataset.index;
+            const meal = meals[index];
+
+            const dayName = evt.to.dataset.day;
+
+            evt.item.remove(); // 🔥 zabráni lag + ghost item
+
+            mealData[dayName] = meal;
+
+            render(day);
+        }
+    });
+});
+
+function render(dayEl) {
+    const name = dayEl.dataset.day;
+    const meal = mealData[name];
+
+    if (!meal) {
+        dayEl.innerHTML = "";
+        return;
+    }
+
+    dayEl.innerHTML = `
+        <div>${name}</div>
+        <div>
+            <b>Polievka:</b> <span class="remove">✖</span>
+            <br>
+            ${meal.name}
         </div>
+    `;
 
-        <div class="meals-container">
-            <!-- Tu sa dynamicky generujú jedlá -->
-        </div>
+    dayEl.querySelector(".remove").onclick = () => {
+        mealData[name] = null;
+        render(dayEl);
+    };
+}
 
-        <div class="days-container">
-            <div class="day" data-day="Pondelok">Pondelok</div>
-            <div class="day" data-day="Utorok">Utorok</div>
-            <div class="day" data-day="Streda">Streda</div>
-            <div class="day" data-day="Štvrtok">Štvrtok</div>
-            <div class="day" data-day="Piatok">Piatok</div>
-        </div>
+function nextPage() {
+    if (Object.values(mealData).includes(null)) {
+        alert("Vyber polievku pre každý deň!");
+        return;
+    }
 
-        <p style="text-align: left;">Potiahnutím presuň Tebou vybranú polievku do konkrétneho dňa.</p>
+    localStorage.setItem("mondaySoup", mealData.Pondelok.name);
+    localStorage.setItem("tuesdaySoup", mealData.Utorok.name);
+    localStorage.setItem("wednesdaySoup", mealData.Streda.name);
+    localStorage.setItem("thursdaySoup", mealData.Štvrtok.name);
+    localStorage.setItem("fridaySoup", mealData.Piatok.name);
 
-        <script>
-            const meals = [
-                {
-                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
-                    name: "Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo Knedlo vepřo zelo",
-                    ingredients: "Pstruh, voda, korenie",
-                    procedure: "Postup 1",
-                    labels: ["VIAC"]
-                },
-                {
-                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
-                    name: "Ryba so zemiakov",
-                    ingredients: "Ryba, zemiak, mlieko",
-                    procedure: "Postup 2",
-                    labels: ["VIAC"]
-                },{
-                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
-                    name: "Knedlo vepřo zelo",
-                    ingredients: "Pstruh, voda, korenie",
-                    procedure: "Postup 1",
-                    labels: ["VIAC"]
-                },
-                {
-                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
-                    name: "Ryba so zemiakov",
-                    ingredients: "Ryba, zemiak, mlieko",
-                    procedure: "Postup 2",
-                    labels: ["VIAC"]
-                },{
-                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
-                    name: "Knedlo vepřo zelo",
-                    ingredients: "Pstruh, voda, korenie",
-                    procedure: "Postup 1",
-                    labels: ["VIAC"]
-                },
-                {
-                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
-                    name: "Ryba so zemiakov",
-                    ingredients: "Ryba, zemiak, mlieko",
-                    procedure: "Postup 2",
-                    labels: ["VIAC"]
-                },{
-                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
-                    name: "Knedlo vepřo zelo",
-                    ingredients: "Pstruh, voda, korenie",
-                    procedure: "Postup 1",
-                    labels: ["VIAC"]
-                },
-                {
-                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
-                    name: "Ryba so zemiakov",
-                    ingredients: "Ryba, zemiak, mlieko",
-                    procedure: "Postup 2",
-                    labels: ["VIAC"]
-                },{
-                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
-                    name: "Knedlo vepřo zelo",
-                    ingredients: "Pstruh, voda, korenie",
-                    procedure: "Postup 1",
-                    labels: ["VIAC"]
-                },
-                {
-                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
-                    name: "Ryba so zemiakov",
-                    ingredients: "Ryba, zemiak, mlieko",
-                    procedure: "Postup 2",
-                    labels: ["VIAC"]
-                },{
-                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
-                    name: "Knedlo vepřo zelo",
-                    ingredients: "Pstruh, voda, korenie",
-                    procedure: "Postup 1",
-                    labels: ["VIAC"]
-                },
-                {
-                    img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg",
-                    name: "Ryba so zemiakov",
-                    ingredients: "Ryba, zemiak, mlieko",
-                    procedure: "Postup 2",
-                    labels: ["VIAC"]
-                },
-                // Tu môžeš pridať ďalšie jedlá
-            ];
+    window.location.href = "04-main-course.html";
+}
+</script>
 
-            const mealsContainer = document.querySelector(".meals-container");
-
-            function truncate(text, max) {
-                return text.length > max ? text.slice(0, max) + "..." : text;
-            }
-
-            meals.forEach((meal, index) => {
-                const mealDiv = document.createElement("div");
-                mealDiv.className = "meal";
-                mealDiv.setAttribute("draggable", "true");
-                mealDiv.dataset.index = index;
-
-                mealDiv.innerHTML = `
-                    <div class="drag-handle">⋮</div>
-                    <img src="${meal.img}" alt="${meal.name}">
-                    <div class="meal-info">
-                        <div class="meal-name" style="font-weight: bold;">${truncate(meal.name, 80)}</div>
-                        <div class="meal-ingredients">${truncate(meal.ingredients, 80)}</div>
-                    </div>
-                `;
-
-                mealsContainer.appendChild(mealDiv);
-
-                mealDiv.addEventListener("dragstart", (e) => {
-                    e.dataTransfer.setData("text/plain", index);
-                });
-            });
-
-            const days = document.querySelectorAll(".day");
-
-            let mealData = {};
-
-            days.forEach(day => {
-                day.addEventListener("dragover", (e) => e.preventDefault());
-
-                day.addEventListener("drop", (e) => {
-                    e.preventDefault();
-                    const index = e.dataTransfer.getData("text/plain");
-                    const meal = meals[index];
-
-                    day.innerHTML = `
-                        ${day.dataset.day}<br>
-                        Polievka: <span class="remove">✖</span><br>
-                        <strong>${meal.name}</strong>
-                    `;
-
-                    mealData[day.dataset.day] = meal;
-
-                    day.querySelector(".remove").addEventListener("click", () => {
-                        day.innerHTML = day.dataset.day;
-                    });
-                });
-            });
-
-            function nextPage() {
-                // Tu môžeš uložiť výber do localStorage alebo poslať na server
-                let monday = mealData["Pondelok"] ? mealData["Pondelok"].name : "x";
-                let tuesday = mealData["Utorok"] ? mealData["Utorok"].name : "x";
-                let wednesday = mealData["Streda"] ? mealData["Streda"].name : "x";   
-                let thursday = mealData["Štvrtok"] ? mealData["Štvrtok"].name : "x";
-                let friday = mealData["Piatok"] ? mealData["Piatok"].name : "x";
-
-                if (monday === "x" || tuesday === "x" || wednesday === "x" || thursday === "x" || friday === "x") {
-                    alert("Nevybral si polievku na všetky dni!");
-                } else {
-                    localStorage.setItem("mondaySoup", monday);
-                    localStorage.setItem("tuesdaySoup", tuesday);
-                    localStorage.setItem("wednesdaySoup", wednesday);
-                    localStorage.setItem("thursdaySoup", thursday);
-                    localStorage.setItem("fridaySoup", friday);
-
-                    window.location.href = "04-main-course.html";
-                }
-            }
-        </script>
 </body>
 </html>
