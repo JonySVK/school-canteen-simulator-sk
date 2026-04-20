@@ -119,37 +119,13 @@
             <button onclick="location.href='03-soup.html'">SKÚSIŤ ZNOVA</button>
             <button onclick="location.href='10-end1.html'">UKONČIŤ HRU</button>
         </div>
+
+        <p style="font-size: 2vh;"><i>Poznámka: V tejto hre sú použité len vybrané normy. V realite ich jedálne musia spĺňať oveľa viac.</i></p>
     </div>
 
     <script>
         // Príklad noriem zo stránky checking.html
-        const norms = [
-            { text: "Musí byť jedno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité jedlo.", passed: true },
-            { text: "Musí byť jedno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedgcbnfgnvbno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité jedlo.", passed: true },
-            { text: "Musí byť jedno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mdvdfvfväsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsitgfgdfé jedlo.", passed: true },
-            { text: "Musí byť jedno mäbfbfgsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsitn vb é jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité       vgjedlo.", passed: true },
-            { text: "Musí byť jedno bvcbthtmäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité jedlo.", passed: true },
-            { text: "Musí byť jedno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité jedlo.", passed: false },
-            { text: "Musí byť jedno mäsité jedlo.", passed: true },
-            { text: "Musí byť jedno mäsité jedlo.", passed: true }
-        ];
+        const norms = localStorage.getItem("norms")
 
         const failedContainer = document.getElementById("failed-norms");
         const succeededContainer = document.getElementById("succeeded-norms");
