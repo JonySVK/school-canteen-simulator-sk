@@ -74,345 +74,348 @@
     </div>
 
     <script>
-        const weeklyMenu = [
-            { day: "Pondelok", soup: localStorage.getItem("mondaySoup"), main: localStorage.getItem("mondayMainCourse"), drink: localStorage.getItem("mondayDrink") },
-            { day: "Utorok", soup: localStorage.getItem("tuesdaySoup"), main: localStorage.getItem("tuesdayMainCourse"), drink: localStorage.getItem("tuesdayDrink") },
-            { day: "Streda", soup: localStorage.getItem("wednesdaySoup"), main: localStorage.getItem("wednesdayMainCourse"), drink: localStorage.getItem("wednesdayDrink") },
-            { day: "Štvrtok", soup: localStorage.getItem("thursdaySoup"), main: localStorage.getItem("thursdayMainCourse"), drink: localStorage.getItem("thursdayDrink") },
-            { day: "Piatok", soup: localStorage.getItem("fridaySoup"), main: localStorage.getItem("fridayMainCourse"), drink: localStorage.getItem("fridayDrink") },
-        ];
+        const mealsDB = {
+            tomato_soup: {
+                name: "Paradajková polievka",
+                type: "soup",
+                tags: ["vegetarian", "vegetables"],
+                nutrition: { energy: 150, fat: 5 }
+            },
 
-        // Pole noriem
+            chicken_rice: {
+                name: "Kuracie mäso s ryžou",
+                type: "main",
+                tags: ["meat", "chicken", "rice", "vegetables", "boiled"],
+                nutrition: { energy: 700, fat: 20 }
+            },
+
+            fried_cheese: {
+                name: "Vyprážaný syr",
+                type: "main",
+                tags: ["vegetarian", "fried", "heavy", "dairy"],
+                nutrition: { energy: 850, fat: 35 }
+            },
+
+            lentil_stew: {
+                name: "Šošovicový prívarok",
+                type: "main",
+                tags: ["vegetarian", "legumes", "light"],
+                nutrition: { energy: 600, fat: 10 }
+            }
+            };
+
+        const weekMenu = [
+            { day: "Monday", soup: localStorage.getItem("mondaySoup"), main: localStorage.getItem("mondayMainCourse"), drink: localStorage.getItem("mondayDrink") },
+            { day: "Tuesday", soup: localStorage.getItem("tuesdaySoup"), main: localStorage.getItem("tuesdayMainCourse"), drink: localStorage.getItem("tuesdayDrink") },
+            { day: "Wednesday", soup: localStorage.getItem("wednesdaySoup"), main: localStorage.getItem("wednesdayMainCourse"), drink: localStorage.getItem("wednesdayDrink") },
+            { day: "Thursday", soup: localStorage.getItem("thursdaySoup"), main: localStorage.getItem("thursdayMainCourse"), drink: localStorage.getItem("thursdayDrink") },
+            { day: "Friday", soup: localStorage.getItem("fridaySoup"), main: localStorage.getItem("fridayMainCourse"), drink: localStorage.getItem("fridayDrink") }
+            ];
+
+        function buildMeals(weekMenu, mealsDB) {
+            return weekMenu.map(day => ({
+                soup: mealsDB[day.soup],
+                main: mealsDB[day.main],
+                drink: day.drink
+            }));
+            }
+
         const norms = [
-                    {
-                        text: "V týždni musia byť 2–4 mäsové jedlá.",
-                        condition: (meals) => {
-                            const count = meals.filter(m => m.tags.includes("meat")).length;
-                            return count >= 2 && count <= 4;
-                        }
-                    },
-                    {
-                        text: "V týždni musí byť aspoň 1 bezmäsité jedlo.",
-                        condition: (meals) => {
-                            return meals.some(m => m.tags.includes("vegetarian"));
-                        }
-                    },
-                    {
-                        text: "V týždni musí byť aspoň 1 jedlo so zníženým množstvom mäsa.",
-                        condition: (meals) => {
-                            return meals.some(m => m.tags.includes("reduced_meat"));
-                        }
-                    },
-                    {
-                        text: "V týždni musí byť aspoň 1 rybacie jedlo.",
-                        condition: (meals) => {
-                            return meals.some(m => m.tags.includes("fish"));
-                        }
-                    },
-                    {
-                        text: "V týždni musí byť 1–2 jedlá zo strukovín.",
-                        condition: (meals) => {
-                            const count = meals.filter(m => m.tags.includes("legumes")).length;
-                            return count >= 1 && count <= 2;
-                        }
-                    },
-                    {
-                        text: "Zelenina musí byť každý deň.",
-                        condition: (meals) => {
-                            return meals.every(m => m.tags.includes("vegetables"));
-                        }
-                    },
-                    {
-                        text: "Ovocie musí byť každý deň.",
-                        condition: (meals) => {
-                            return meals.every(m => m.tags.includes("fruit"));
-                        }
-                    },
-                    {
-                        text: "Sladké jedlá môžu byť maximálne 2× za týždeň.",
-                        condition: (meals) => {
-                            const count = meals.filter(m => m.tags.includes("sweet")).length;
-                            return count <= 2;
-                        }
-                    },
-                    {
-                        text: "Vyprážané jedlá môžu byť maximálne 2× za týždeň.",
-                        condition: (meals) => {
-                            const count = meals.filter(m => m.tags.includes("fried")).length;
-                            return count <= 2;
-                        }
-                    },
-                    {
-                        text: "Nesmie sa opakovať rovnaký typ mäsa 3× po sebe.",
-                        condition: (meals) => {
-                            let streak = 1;
-                            for (let i = 1; i < meals.length; i++) {
-                                const prev = meals[i - 1].tags.find(t => ["beef","pork","chicken","fish"].includes(t));
-                                const curr = meals[i].tags.find(t => ["beef","pork","chicken","fish"].includes(t));
-                                if (prev && curr && prev === curr) {
-                                    streak++;
-                                    if (streak >= 3) return false;
-                                } else {
-                                    streak = 1;
-                                }
-                            }
-                            return true;
-                        }
-                    },
-                    {
-                        text: "Prílohy sa nesmú opakovať viac ako 3× po sebe.",
-                        condition: (meals) => {
-                            let streak = 1;
-                            for (let i = 1; i < meals.length; i++) {
-                                const prev = meals[i - 1].tags.find(t => ["rice","potatoes","pasta","dumplings"].includes(t));
-                                const curr = meals[i].tags.find(t => ["rice","potatoes","pasta","dumplings"].includes(t));
-                                if (prev && curr && prev === curr) {
-                                    streak++;
-                                    if (streak > 3) return false;
-                                } else {
-                                    streak = 1;
-                                }
-                            }
-                            return true;
-                        }
-                    },
-                    {
-                        text: "Musí byť aspoň 1 hlavné jedlo, kde je zelenina dominantná.",
-                        condition: (meals) => {
-                            return meals.some(m => m.tags.includes("vegetarian") && m.tags.includes("vegetables"));
-                        }
-                    },
-                    {
-                        text: "Musí byť aspoň 1 jedlo bez mäsa, ktoré obsahuje bielkoviny.",
-                        condition: (meals) => {
-                            return meals.some(m =>
-                                !m.tags.includes("meat") &&
-                                (m.tags.includes("legumes") || m.tags.includes("dairy") || m.tags.includes("egg"))
-                            );
-                        }
-                    },
-                    {
-                        text: "Mliečne výrobky by mali byť aspoň 2× za týždeň.",
-                        condition: (meals) => {
-                            const count = meals.filter(m => m.tags.includes("dairy")).length;
-                            return count >= 2;
-                        }
-                    },
-                    {
-                        text: "Sladené nápoje môžu byť maximálne 1× za týždeň.",
-                        condition: (meals) => {
-                            const count = meals.filter(m => m.drink === "sweet_drink").length;
-                            return count <= 1;
-                        }
-                    },
-                    {
-                        text: "Každý deň musí byť k jedlu nápoj.",
-                        condition: (meals) => {
-                            return meals.every(m => m.drink);
-                        }
-                    },
-                    {
-                        text: "Mlieko sa nesmie kombinovať s mäsovým jedlom.",
-                        condition: (meals) => {
-                            return meals.every(m => !(m.tags.includes("meat") && m.drink === "milk"));
-                        }
-                    },
-                    {
-                        text: "Energetická hodnota jedál musí byť v primeranom rozsahu.",
-                        condition: (meals) => {
-                            return meals.every(m => m.nutrition.energy >= 500 && m.nutrition.energy <= 900);
-                        }
-                    },
-                    {
-                        text: "Týždeň nesmie byť nutrične nevyvážený.",
-                        condition: (meals) => {
-                            const energies = meals.map(m => m.nutrition.energy);
-                            const avg = energies.reduce((a,b) => a+b,0) / energies.length;
-                            return energies.every(e => Math.abs(e - avg) < 300);
-                        }
-                    },
-                    {
-                        text: "Jedálny lístok musí byť dostatočne pestrý.",
-                        condition: (meals) => {
-                            const tags = new Set();
-                            meals.forEach(m => m.tags.forEach(t => tags.add(t)));
-                            return tags.size >= 8;
-                        }
-                    },
-                    {
-                        text: "Zemiaky môžu byť maximálne 3× za týždeň.",
-                        condition: (meals) => {
-                            const count = meals.filter(m => m.tags.includes("potatoes")).length;
-                            return count <= 3;
-                        }
-                    },
-                    {
-                        text: "Ryža môže byť maximálne 3× za týždeň.",
-                        condition: (meals) => {
-                            const count = meals.filter(m => m.tags.includes("rice")).length;
-                            return count <= 3;
-                        }
-                    },
-                    {
-                        text: "Cestoviny môžu byť maximálne 2× za týždeň.",
-                        condition: (meals) => {
-                            const count = meals.filter(m => m.tags.includes("pasta")).length;
-                            return count <= 2;
-                        }
-                    },
-                    {
-                        text: "Musí sa použiť aspoň 2 rôzne druhy príloh.",
-                        condition: (meals) => {
-                            const sides = new Set();
-                            meals.forEach(m => {
-                                ["rice","potatoes","pasta","dumplings"].forEach(t => {
-                                    if (m.tags.includes(t)) sides.add(t);
-                                });
-                            });
-                            return sides.size >= 2;
-                        }
-                    },
-                    {
-                        text: "Nemôžu byť 2 sladké jedlá po sebe.",
-                        condition: (meals) => {
-                            for (let i = 1; i < meals.length; i++) {
-                                if (meals[i].tags.includes("sweet") && meals[i-1].tags.includes("sweet")) {
-                                    return false;
-                                }
-                            }
-                            return true;
-                        }
-                    },
-                    {
-                        text: "Nemôžu byť 2 vyprážané jedlá po sebe.",
-                        condition: (meals) => {
-                            for (let i = 1; i < meals.length; i++) {
-                                if (meals[i].tags.includes("fried") && meals[i-1].tags.includes("fried")) {
-                                    return false;
-                                }
-                            }
-                            return true;
-                        }
-                    },
-                    {
-                        text: "Musí byť aspoň 1 jedlo s celozrnnou prílohou.",
-                        condition: (meals) => {
-                            return meals.some(m => m.tags.includes("wholegrain"));
-                        }
-                    },
-                    {
-                        text: "Musí byť aspoň 3 rôzne druhy mäsa za týždeň.",
-                        condition: (meals) => {
-                            const meats = new Set();
-                            meals.forEach(m => {
-                                ["chicken","pork","beef","fish"].forEach(t => {
-                                    if (m.tags.includes(t)) meats.add(t);
-                                });
-                            });
-                            return meats.size >= 2;
-                        }
-                    },
-                    {
-                        text: "Nemalo by byť viac ako 2 ťažké jedlá.",
-                        condition: (meals) => {
-                            const count = meals.filter(m => m.tags.includes("heavy")).length;
-                            return count <= 2;
-                        }
-                    },
-                    {
-                        text: "Musí byť aspoň 1 ľahké jedlo.",
-                        condition: (meals) => {
-                            return meals.some(m => m.tags.includes("healthy"));
-                        }
-                    },
-                    {
-                        text: "Nemôžu byť viac ako 2 spracované jedlá.",
-                        condition: (meals) => {
-                            const count = meals.filter(m => m.tags.includes("processed")).length;
-                            return count <= 2;
-                        }
-                    },
-                    {
-                        text: "Musí byť aspoň 1 jedlo so strukovinou ako hlavnou zložkou.",
-                        condition: (meals) => {
-                            return meals.some(m => m.tags.includes("legumes") && m.tags.includes("vegetarian"));
-                        }
-                    },
-                    {
-                        text: "Nemôže byť 5 dní po sebe mäso.",
-                        condition: (meals) => {
-                            return meals.some(m => !m.tags.includes("meat"));
-                        }
-                    },
-                    {
-                        text: "Musí byť aspoň 1 jedlo s ovocím ako súčasťou hlavného jedla.",
-                        condition: (meals) => {
-                            return meals.some(m => m.tags.includes("fruit") && !m.tags.includes("sweet"));
-                        }
-                    },
-                    {
-                        text: "Nemôžu byť viac ako 2 dni bez strukovín alebo rýb.",
-                        condition: (meals) => {
-                            let streak = 0;
-                            for (let m of meals) {
-                                if (!m.tags.includes("fish") && !m.tags.includes("legumes")) {
-                                    streak++;
-                                    if (streak > 2) return false;
-                                } else {
-                                    streak = 0;
-                                }
-                            }
-                            return true;
-                        }
-                    },
-                    {
-                        text: "Každý deň by mal obsahovať aspoň jeden zdroj bielkovín.",
-                        condition: (meals) => {
-                            return meals.every(m =>
-                                m.tags.some(t => ["meat","fish","legumes","dairy","egg"].includes(t))
-                            );
-                        }
-                    },
-                    {
-                        text: "Nemôžu byť viac ako 2 dni bez zeleniny ako hlavnej zložky.",
-                        condition: (meals) => {
-                            let streak = 0;
-                            for (let m of meals) {
-                                if (!m.tags.includes("vegetables")) {
-                                    streak++;
-                                    if (streak > 2) return false;
-                                } else {
-                                    streak = 0;
-                                }
-                            }
-                            return true;
-                        }
-                    },
-                    {
-                        text: "Musí byť aspoň 1 jedlo pripravené varením alebo dusením.",
-                        condition: (meals) => {
-                            return meals.some(m => m.tags.includes("boiled") || m.tags.includes("steamed"));
-                        }
-                    },
-                    {
-                        text: "Nemôžu byť viac ako 3 dni s vysokým obsahom tukov.",
-                        condition: (meals) => {
-                            const count = meals.filter(m => m.nutrition.fat > 30).length;
-                            return count <= 3;
-                        }
-                    },
-                    {
-                        text: "Nemôžu byť viac ako 2 dni s veľmi vysokou energiou.",
-                        condition: (meals) => {
-                            const count = meals.filter(m => m.nutrition.energy > 800).length;
-                            return count <= 2;
-                        }
-                    }
-                ];
+
+        {
+        text: "V týždni musia byť 2–4 mäsové jedlá.",
+        condition: (meals) => {
+        const count = meals.filter(m => m.main.tags.includes("meat")).length;
+        return count >= 2 && count <= 4;
+        }
+        },
+
+        {
+        text: "V týždni musí byť aspoň 1 bezmäsité jedlo.",
+        condition: (meals) =>
+        meals.some(m => m.main.tags.includes("vegetarian"))
+        },
+
+        {
+        text: "V týždni musí byť aspoň 1 jedlo so zníženým množstvom mäsa.",
+        condition: (meals) =>
+        meals.some(m => m.main.tags.includes("reduced_meat"))
+        },
+
+        {
+        text: "V týždni musí byť aspoň 1 rybacie jedlo.",
+        condition: (meals) =>
+        meals.some(m => m.main.tags.includes("fish"))
+        },
+
+        {
+        text: "V týždni musí byť 1–2 jedlá zo strukovín.",
+        condition: (meals) => {
+        const count = meals.filter(m => m.main.tags.includes("legumes")).length;
+        return count >= 1 && count <= 2;
+        }
+        },
+
+        {
+        text: "Zelenina musí byť každý deň.",
+        condition: (meals) =>
+        meals.every(m =>
+        m.soup.tags.includes("vegetables") ||
+        m.main.tags.includes("vegetables")
+        )
+        },
+
+        {
+        text: "Sladké jedlá môžu byť maximálne 2× za týždeň.",
+        condition: (meals) =>
+        meals.filter(m => m.main.tags.includes("sweet")).length <= 2
+        },
+
+        {
+        text: "Vyprážané jedlá môžu byť maximálne 2× za týždeň.",
+        condition: (meals) =>
+        meals.filter(m => m.main.tags.includes("fried")).length <= 2
+        },
+
+        {
+        text: "Nesmie sa opakovať rovnaký typ mäsa 3× po sebe.",
+        condition: (meals) => {
+        let streak = 1;
+        for (let i = 1; i < meals.length; i++) {
+        const prev = meals[i-1].main.tags.find(t => ["beef","pork","chicken","fish"].includes(t));
+        const curr = meals[i].main.tags.find(t => ["beef","pork","chicken","fish"].includes(t));
+
+        if (prev && curr && prev === curr) {
+        streak++;
+        if (streak >= 3) return false;
+        } else {
+        streak = 1;
+        }
+        }
+        return true;
+        }
+        },
+
+        {
+        text: "Prílohy sa nesmú opakovať viac ako 3× po sebe.",
+        condition: (meals) => {
+        let streak = 1;
+        for (let i = 1; i < meals.length; i++) {
+        const prev = meals[i-1].main.tags.find(t => ["rice","potatoes","pasta","dumplings"].includes(t));
+        const curr = meals[i].main.tags.find(t => ["rice","potatoes","pasta","dumplings"].includes(t));
+
+        if (prev && curr && prev === curr) {
+        streak++;
+        if (streak > 3) return false;
+        } else {
+        streak = 1;
+        }
+        }
+        return true;
+        }
+        },
+
+        {
+        text: "Mliečne výrobky by mali byť aspoň 2× za týždeň.",
+        condition: (meals) =>
+        meals.filter(m => m.main.tags.includes("dairy")).length >= 2
+        },
+
+        {
+        text: "Sladené nápoje môžu byť maximálne 1× za týždeň.",
+        condition: (meals) =>
+        meals.filter(m => m.drink === "sweet_drink").length <= 1
+        },
+
+        {
+        text: "Každý deň musí byť k jedlu nápoj.",
+        condition: (meals) =>
+        meals.every(m => m.drink)
+        },
+
+        {
+        text: "Mlieko sa nesmie kombinovať s mäsovým jedlom.",
+        condition: (meals) =>
+        meals.every(m =>
+        !(m.main.tags.includes("meat") && m.drink === "milk")
+        )
+        },
+
+        {
+        text: "Energetická hodnota jedál musí byť v primeranom rozsahu.",
+        condition: (meals) =>
+        meals.every(m => {
+        const energy = m.soup.nutrition.energy + m.main.nutrition.energy;
+        return energy >= 500 && energy <= 900;
+        })
+        },
+
+        {
+        text: "Týždeň nesmie byť nutrične nevyvážený.",
+        condition: (meals) => {
+        const energies = meals.map(m => m.soup.nutrition.energy + m.main.nutrition.energy);
+        const avg = energies.reduce((a,b)=>a+b,0)/energies.length;
+        return energies.every(e => Math.abs(e - avg) < 300);
+        }
+        },
+
+        {
+        text: "Jedálny lístok musí byť dostatočne pestrý.",
+        condition: (meals) => {
+        const tags = new Set();
+        meals.forEach(m => {
+        m.soup.tags.forEach(t => tags.add(t));
+        m.main.tags.forEach(t => tags.add(t));
+        });
+        return tags.size >= 8;
+        }
+        },
+
+        {
+        text: "Zemiaky môžu byť maximálne 3× za týždeň.",
+        condition: (meals) =>
+        meals.filter(m => m.main.tags.includes("potatoes")).length <= 3
+        },
+
+        {
+        text: "Ryža môže byť maximálne 3× za týždeň.",
+        condition: (meals) =>
+        meals.filter(m => m.main.tags.includes("rice")).length <= 3
+        },
+
+        {
+        text: "Cestoviny môžu byť maximálne 2× za týždeň.",
+        condition: (meals) =>
+        meals.filter(m => m.main.tags.includes("pasta")).length <= 2
+        },
+
+        {
+        text: "Musí sa použiť aspoň 2 rôzne druhy príloh.",
+        condition: (meals) => {
+        const sides = new Set();
+        meals.forEach(m => {
+        ["rice","potatoes","pasta","dumplings"].forEach(t => {
+        if (m.main.tags.includes(t)) sides.add(t);
+        });
+        });
+        return sides.size >= 2;
+        }
+        },
+
+        {
+        text: "Nemôžu byť 2 sladké jedlá po sebe.",
+        condition: (meals) => {
+        for (let i = 1; i < meals.length; i++) {
+        if (
+        meals[i].main.tags.includes("sweet") &&
+        meals[i-1].main.tags.includes("sweet")
+        ) return false;
+        }
+        return true;
+        }
+        },
+
+        {
+        text: "Nemôžu byť 2 vyprážané jedlá po sebe.",
+        condition: (meals) => {
+        for (let i = 1; i < meals.length; i++) {
+        if (
+        meals[i].main.tags.includes("fried") &&
+        meals[i-1].main.tags.includes("fried")
+        ) return false;
+        }
+        return true;
+        }
+        },
+
+        {
+        text: "Musí byť aspoň 3 rôzne druhy mäsa za týždeň.",
+        condition: (meals) => {
+        const meats = new Set();
+        meals.forEach(m => {
+        ["chicken","pork","beef","fish"].forEach(t => {
+        if (m.main.tags.includes(t)) meats.add(t);
+        });
+        });
+        return meats.size >= 3; // FIX
+        }
+        },
+
+        {
+        text: "Nemalo by byť viac ako 2 ťažké jedlá.",
+        condition: (meals) =>
+        meals.filter(m => m.main.tags.includes("heavy")).length <= 2
+        },
+
+        {
+        text: "Musí byť aspoň 1 ľahké jedlo.",
+        condition: (meals) =>
+        meals.some(m => m.main.tags.includes("light")) // FIX
+        },
+
+        {
+        text: "Nemôžu byť viac ako 2 dni bez strukovín alebo rýb.",
+        condition: (meals) => {
+        let streak = 0;
+        for (let m of meals) {
+        if (!m.main.tags.includes("fish") && !m.main.tags.includes("legumes")) {
+        streak++;
+        if (streak > 2) return false;
+        } else streak = 0;
+        }
+        return true;
+        }
+        },
+
+        {
+        text: "Nemôžu byť viac ako 2 dni bez zeleniny ako hlavnej zložky.",
+        condition: (meals) => {
+        let streak = 0;
+        for (let m of meals) {
+        if (!m.main.tags.includes("vegetables")) {
+        streak++;
+        if (streak > 2) return false;
+        } else streak = 0;
+        }
+        return true;
+        }
+        },
+
+        {
+        text: "Musí byť aspoň 1 jedlo pripravené varením alebo dusením.",
+        condition: (meals) =>
+        meals.some(m =>
+        m.main.tags.includes("boiled") ||
+        m.main.tags.includes("steamed")
+        )
+        },
+
+        {
+        text: "Nemôžu byť viac ako 3 dni s vysokým obsahom tukov.",
+        condition: (meals) =>
+        meals.filter(m =>
+        (m.soup.nutrition.fat + m.main.nutrition.fat) > 30
+        ).length <= 3
+        },
+
+        {
+        text: "Nemôžu byť viac ako 2 dni s veľmi vysokou energiou.",
+        condition: (meals) =>
+        meals.filter(m =>
+        (m.soup.nutrition.energy + m.main.nutrition.energy) > 800
+        ).length <= 2
+        }
+
+        ];
+        
+
 
         const container = document.querySelector(".check-container");
 
-        // Vytvoríme prvky
+        // 🔽 musíš mať meals pripravené
+        const meals = buildMeals(weekMenu, mealsDB);
+
+        // Vytvorenie UI
         norms.forEach(norm => {
             const div = document.createElement("div");
             div.className = "norm";
@@ -420,38 +423,59 @@
             container.appendChild(div);
         });
 
-        // Animácia bodiek
+        // Animácia bodiek (ak existuje element)
         const dots = document.getElementById("dots");
-        let dotCount = 0;
-        setInterval(() => {
-            dotCount = (dotCount + 1) % 4;
-            dots.textContent = '.'.repeat(dotCount);
-        }, 500);
+        if (dots) {
+            let dotCount = 0;
+            setInterval(() => {
+                dotCount = (dotCount + 1) % 4;
+                dots.textContent = '.'.repeat(dotCount);
+            }, 500);
+        }
 
-        // Funkcia na kontrolu
+        // Kontrola noriem
         async function runChecks() {
+
+            const results = [];
+
             for (let i = 0; i < norms.length; i++) {
                 const div = container.children[i];
                 const icon = div.querySelector(".icon");
 
-                // točiaci sa krúžok
+                // loading
                 icon.textContent = "⏳";
                 div.scrollIntoView({ behavior: "smooth", block: "center" });
 
-                // simulujeme kontrolu 0,25 sekundy
                 await new Promise(r => setTimeout(r, 250));
 
-                // výsledok kontroly
-                if (norms[i].condition === true) icon.textContent = "✅";
-                else if (norms[i].condition === false) icon.textContent = "❌";
-                else icon.textContent = "⚪";
-            }
-            
-            localStorage.setItem("norms", JSON.stringify(norms)); // !!!! nefunguje !!!!  ?????
+                let passed = false;
 
+                try {
+                    // ❗ KĽÚČOVÝ FIX
+                    passed = norms[i].condition(meals);
+                } catch (e) {
+                    console.error("Chyba v norme:", norms[i].text, e);
+                    passed = false;
+                }
+
+                // UI výsledok
+                if (passed) icon.textContent = "✅";
+                else icon.textContent = "❌";
+
+                results.push({
+                    text: norms[i].text,
+                    passed: passed
+                });
+            }
+
+            // ❗ ukladaj výsledky, nie funkcie
+            localStorage.setItem("normResults", JSON.stringify(results));
+
+            // presmerovanie
             window.location.href = "09-result.html";
         }
 
+        // spusti
         runChecks();
     </script>
 </body>

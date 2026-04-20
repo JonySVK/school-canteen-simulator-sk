@@ -97,7 +97,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1 id="score"></h1>
+            <h1 id="score" style="width: 100%"></h1><abbr title="V tejto hre sú použité len vybrané normy. V realite ich jedálne musia spĺňať oveľa viac." style="font-size: 6vh; color: #333; text-decoration: none;"> *</abbr>
         </div>
 
         <div class="check-container" style="font-size: 3vh; color: #333;">
@@ -120,12 +120,12 @@
             <button onclick="location.href='10-end1.html'">UKONČIŤ HRU</button>
         </div>
 
-        <p style="font-size: 2vh;"><i>Poznámka: V tejto hre sú použité len vybrané normy. V realite ich jedálne musia spĺňať oveľa viac.</i></p>
+        <p style="font-size: 2vh;"><i>* Poznámka: V tejto hre sú použité len vybrané normy. V realite ich jedálne musia spĺňať oveľa viac.</i></p>
     </div>
 
     <script>
         // Príklad noriem zo stránky checking.html
-        const norms = localStorage.getItem("norms")
+        const norms = JSON.parse(localStorage.getItem("normResults"));
 
         const failedContainer = document.getElementById("failed-norms");
         const succeededContainer = document.getElementById("succeeded-norms");
