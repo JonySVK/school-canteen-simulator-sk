@@ -122,27 +122,127 @@ p {
 
 <script>
 const meals = [
-    { name: "Polievka 1", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievsfsg rfwedwwfzýdscgh uidbsgfud ihuszvgd rawuehduc szvgrzýdgzuc svdfka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" }
-];
+        {
+        name: "Zeleninová polievka",
+        tags: ["vegetables", "light"],
+        nutrition: { energy: 120, fat: 3 }
+        },
+
+        {
+        name: "Kuracia polievka s rezancami",
+        tags: ["meat", "chicken"],
+        nutrition: { energy: 180, fat: 6 }
+        },
+
+        {
+        name: "Hovädzia polievka s rezancami",
+        tags: ["meat", "beef"],
+        nutrition: { energy: 200, fat: 7 }
+        },
+
+        {
+        name: "Paradajková polievka",
+        tags: ["vegetables", "light"],
+        nutrition: { energy: 130, fat: 3 }
+        },
+
+        {
+        name: "Šošovicová polievka",
+        tags: ["legumes", "vegetables"],
+        nutrition: { energy: 220, fat: 5 }
+        },
+
+        {
+        name: "Fazuľová polievka",
+        tags: ["legumes"],
+        nutrition: { energy: 230, fat: 6 }
+        },
+
+        {
+        name: "Fazuľová polievka s mäsom",
+        tags: ["legumes", "meat", "heavy"],
+        nutrition: { energy: 320, fat: 12 }
+        },
+
+        {
+        name: "Cesnaková polievka",
+        tags: ["vegetables", "light"],
+        nutrition: { energy: 110, fat: 3 }
+        },
+
+        {
+        name: "Zemiaková polievka",
+        tags: ["vegetables"],
+        nutrition: { energy: 190, fat: 5 }
+        },
+
+        {
+        name: "Kapustová polievka",
+        tags: ["vegetables"],
+        nutrition: { energy: 170, fat: 4 }
+        },
+
+        {
+        name: "Kapustnica s mäsom",
+        tags: ["meat", "heavy"],
+        nutrition: { energy: 350, fat: 15 }
+        },
+
+        {
+        name: "Brokolicová krémová polievka",
+        tags: ["vegetables", "dairy", "light"],
+        nutrition: { energy: 210, fat: 10 }
+        },
+
+        {
+        name: "Tekvicová polievka",
+        tags: ["vegetables", "light"],
+        nutrition: { energy: 160, fat: 6 }
+        },
+
+        {
+        name: "Hrachová polievka",
+        tags: ["legumes"],
+        nutrition: { energy: 240, fat: 5 }
+        },
+
+        {
+        name: "Hrachová polievka s údeným mäsom",
+        tags: ["legumes", "meat", "heavy"],
+        nutrition: { energy: 330, fat: 13 }
+        },
+
+        {
+        name: "Cibuľová polievka",
+        tags: ["vegetables"],
+        nutrition: { energy: 150, fat: 5 }
+        },
+
+        {
+        name: "Krúpová polievka",
+        tags: ["vegetables"],
+        nutrition: { energy: 200, fat: 4 }
+        },
+
+        {
+        name: "Ryžová polievka",
+        tags: ["vegetables", "rice"],
+        nutrition: { energy: 190, fat: 3 }
+        },
+
+        {
+        name: "Špenátová polievka",
+        tags: ["vegetables"],
+        nutrition: { energy: 180, fat: 7 }
+        },
+
+        {
+        name: "Karfiolová polievka",
+        tags: ["vegetables"],
+        nutrition: { energy: 170, fat: 4 }
+        }
+
+        ];
 
 let mealData = {
     Pondelok: null,
@@ -162,7 +262,7 @@ meals.forEach((meal, index) => {
 
     div.innerHTML = `
         <div class="drag-handle">⋮</div>
-        <img src="${meal.img}">
+        ${meal.img ? `<img src="${meal.img}">` : ''}
         <div>${meal.name}</div>
     `;
 

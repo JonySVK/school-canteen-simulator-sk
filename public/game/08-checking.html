@@ -74,35 +74,438 @@
     </div>
 
     <script>
-        const mealsDB = {
-            tomato_soup: {
-                name: "Paradajková polievka",
-                type: "soup",
-                tags: ["vegetarian", "vegetables"],
-                nutrition: { energy: 150, fat: 5 }
-            },
+        const mealsDB = [
+                    {
+                    name: "Zeleninová polievka",
+                    type: "soup",
+                    tags: ["vegetables", "light"],
+                    nutrition: { energy: 120, fat: 3 }
+                    },
 
-            chicken_rice: {
-                name: "Kuracie mäso s ryžou",
-                type: "main",
-                tags: ["meat", "chicken", "rice", "vegetables", "boiled"],
-                nutrition: { energy: 700, fat: 20 }
-            },
+                    {
+                    name: "Kuracia polievka s rezancami",
+                    type: "soup",
+                    tags: ["meat", "chicken"],
+                    nutrition: { energy: 180, fat: 6 }
+                    },
 
-            fried_cheese: {
-                name: "Vyprážaný syr",
-                type: "main",
-                tags: ["vegetarian", "fried", "heavy", "dairy"],
-                nutrition: { energy: 850, fat: 35 }
-            },
+                    {
+                    name: "Hovädzia polievka s rezancami",
+                    type: "soup",
+                    tags: ["meat", "beef"],
+                    nutrition: { energy: 200, fat: 7 }
+                    },
 
-            lentil_stew: {
-                name: "Šošovicový prívarok",
-                type: "main",
-                tags: ["vegetarian", "legumes", "light"],
-                nutrition: { energy: 600, fat: 10 }
-            }
-            };
+                    {
+                    name: "Paradajková polievka",
+                    type: "soup",
+                    tags: ["vegetables", "light"],
+                    nutrition: { energy: 130, fat: 3 }
+                    },
+
+                    {
+                    name: "Šošovicová polievka",
+                    type: "soup",
+                    tags: ["legumes", "vegetables"],
+                    nutrition: { energy: 220, fat: 5 }
+                    },
+
+                    {
+                    name: "Fazuľová polievka",
+                    type: "soup",
+                    tags: ["legumes"],
+                    nutrition: { energy: 230, fat: 6 }
+                    },
+
+                    {
+                    name: "Fazuľová polievka s mäsom",
+                    type: "soup",
+                    tags: ["legumes", "meat", "heavy"],
+                    nutrition: { energy: 320, fat: 12 }
+                    },
+
+                    {
+                    name: "Cesnaková polievka",
+                    type: "soup",
+                    tags: ["vegetables", "light"],
+                    nutrition: { energy: 110, fat: 3 }
+                    },
+
+                    {
+                    name: "Zemiaková polievka",
+                    type: "soup",
+                    tags: ["vegetables"],
+                    nutrition: { energy: 190, fat: 5 }
+                    },
+
+                    {
+                    name: "Kapustová polievka",
+                    type: "soup",
+                    tags: ["vegetables"],
+                    nutrition: { energy: 170, fat: 4 }
+                    },
+
+                    {
+                    name: "Kapustnica s mäsom",
+                    type: "soup",
+                    tags: ["meat", "heavy"],
+                    nutrition: { energy: 350, fat: 15 }
+                    },
+
+                    {
+                    name: "Brokolicová krémová polievka",
+                    type: "soup",
+                    tags: ["vegetables", "dairy", "light"],
+                    nutrition: { energy: 210, fat: 10 }
+                    },
+
+                    {
+                    name: "Tekvicová polievka",
+                    type: "soup",
+                    tags: ["vegetables", "light"],
+                    nutrition: { energy: 160, fat: 6 }
+                    },
+
+                    {
+                    name: "Hrachová polievka",
+                    type: "soup",
+                    tags: ["legumes"],
+                    nutrition: { energy: 240, fat: 5 }
+                    },
+
+                    {
+                    name: "Hrachová polievka s údeným mäsom",
+                    type: "soup",
+                    tags: ["legumes", "meat", "heavy"],
+                    nutrition: { energy: 330, fat: 13 }
+                    },
+
+                    {
+                    name: "Cibuľová polievka",
+                    type: "soup",
+                    tags: ["vegetables"],
+                    nutrition: { energy: 150, fat: 5 }
+                    },
+
+                    {
+                    name: "Krúpová polievka",
+                    type: "soup",
+                    tags: ["vegetables"],
+                    nutrition: { energy: 200, fat: 4 }
+                    },
+
+                    {
+                    name: "Ryžová polievka",
+                    type: "soup",
+                    tags: ["vegetables", "rice"],
+                    nutrition: { energy: 190, fat: 3 }
+                    },
+
+                    {
+                    name: "Špenátová polievka",
+                    type: "soup",
+                    tags: ["vegetables"],
+                    nutrition: { energy: 180, fat: 7 }
+                    },
+
+                    {
+                    name: "Karfiolová polievka",
+                    type: "soup",
+                    tags: ["vegetables"],
+                    nutrition: { energy: 170, fat: 4 }
+                    },
+
+                    {
+                    name: "Kuracie prsia na prírodno s ryžou",
+                    type: "main",
+                    tags: ["meat", "chicken", "rice", "light", "boiled"],
+                    nutrition: { energy: 550, fat: 12 }
+                    },
+
+                    {
+                    name: "Bravčový rezeň so zemiakmi",
+                    type: "main",
+                    tags: ["meat", "pork", "potatoes", "fried", "heavy"],
+                    nutrition: { energy: 800, fat: 35 }
+                    },
+
+                    {
+                    name: "Hovädzí guláš s knedľou",
+                    type: "main",
+                    tags: ["meat", "beef", "dumplings", "heavy"],
+                    nutrition: { energy: 750, fat: 28 }
+                    },
+
+                    {
+                    name: "Kuracie stehno na paprike s cestovinou",
+                    type: "main",
+                    tags: ["meat", "chicken", "pasta"],
+                    nutrition: { energy: 680, fat: 22 }
+                    },
+
+                    {
+                    name: "Ryba pečená so zemiakmi",
+                    type: "main",
+                    tags: ["fish", "meat", "potatoes", "light", "steamed"],
+                    nutrition: { energy: 520, fat: 14 }
+                    },
+
+                    {
+                    name: "Šošovicový prívarok s vajcom a chlebom",
+                    type: "main",
+                    tags: ["legumes", "vegetarian", "heavy"],
+                    nutrition: { energy: 620, fat: 18 }
+                    },
+
+                    {
+                    name: "Fazuľový prívarok s klobásou a chlebom",
+                    type: "main",
+                    tags: ["legumes", "meat", "heavy"],
+                    nutrition: { energy: 720, fat: 30 }
+                    },
+
+                    {
+                    name: "Zeleninové rizoto so syrom",
+                    type: "main",
+                    tags: ["vegetarian", "rice", "dairy", "light"],
+                    nutrition: { energy: 560, fat: 15 }
+                    },
+
+                    {
+                    name: "Kurací rezeň s ryžou",
+                    type: "main",
+                    tags: ["meat", "chicken", "rice", "fried"],
+                    nutrition: { energy: 720, fat: 28 }
+                    },
+
+                    {
+                    name: "Bravčové na šťave so zemiakovou kašou",
+                    type: "main",
+                    tags: ["meat", "pork", "potatoes"],
+                    nutrition: { energy: 690, fat: 24 }
+                    },
+
+                    {
+                    name: "Hovädzie mäso varené s ryžou",
+                    type: "main",
+                    tags: ["meat", "beef", "rice", "boiled", "light"],
+                    nutrition: { energy: 530, fat: 10 }
+                    },
+
+                    {
+                    name: "Zapekané cestoviny so syrom",
+                    type: "main",
+                    tags: ["vegetarian", "pasta", "dairy", "heavy"],
+                    nutrition: { energy: 750, fat: 32 }
+                    },
+
+                    {
+                    name: "Zemiakové placky",
+                    type: "main",
+                    tags: ["vegetarian", "potatoes", "fried"],
+                    nutrition: { energy: 650, fat: 26 }
+                    },
+
+                    {
+                    name: "Kuracie soté s ryžou",
+                    type: "main",
+                    tags: ["meat", "chicken", "rice"],
+                    nutrition: { energy: 600, fat: 18 }
+                    },
+
+                    {
+                    name: "Bravčové výpečky s kapustou a knedľou",
+                    type: "main",
+                    tags: ["meat", "pork", "dumplings", "heavy"],
+                    nutrition: { energy: 820, fat: 36 }
+                    },
+
+                    {
+                    name: "Rybie filé so zemiakovou kašou",
+                    type: "main",
+                    tags: ["fish", "meat", "potatoes"],
+                    nutrition: { energy: 560, fat: 16 }
+                    },
+
+                    {
+                    name: "Špenát s vajcom a zemiakmi",
+                    type: "main",
+                    tags: ["vegetarian", "potatoes", "light"],
+                    nutrition: { energy: 520, fat: 14 }
+                    },
+
+                    {
+                    name: "Kuracie prsia na bylinkách s ryžou",
+                    type: "main",
+                    tags: ["meat", "chicken", "rice", "light"],
+                    nutrition: { energy: 540, fat: 12 }
+                    },
+
+                    {
+                    name: "Zeleninové rizoto s kuracím mäsom",
+                    type: "main",
+                    tags: ["meat", "chicken", "rice", "reduced_meat", "light"],
+                    nutrition: { energy: 540, fat: 12 }
+                    },
+
+                    {
+                    name: "Cestoviny s kuracím mäsom a zeleninou",
+                    type: "main",
+                    tags: ["meat", "chicken", "pasta", "reduced_meat"],
+                    nutrition: { energy: 600, fat: 18 }
+                    },
+
+                    {
+                    name: "Zeleninový bulgur s kúskami bravčového mäsa",
+                    type: "main",
+                    tags: ["meat", "pork", "reduced_meat", "light"],
+                    nutrition: { energy: 560, fat: 14 }
+                    },
+
+                    {
+                    name: "Cestoviny s paradajkovou omáčkou",
+                    type: "main",
+                    tags: ["vegetarian", "pasta", "light"],
+                    nutrition: { energy: 500, fat: 10 }
+                    },
+
+                    {
+                    name: "Hrachová kaša s údeným mäsom a chlebom",
+                    type: "main",
+                    tags: ["legumes", "meat", "heavy"],
+                    nutrition: { energy: 700, fat: 28 }
+                    },
+
+                    {
+                    name: "Zeleninové fašírky so zemiakmi",
+                    type: "main",
+                    tags: ["vegetarian", "potatoes"],
+                    nutrition: { energy: 580, fat: 18 }
+                    },
+
+                    {
+                    name: "Kuracie stehno pečené so zemiakmi",
+                    type: "main",
+                    tags: ["meat", "chicken", "potatoes"],
+                    nutrition: { energy: 650, fat: 22 }
+                    },
+
+                    {
+                    name: "Ryžový nákyp s ovocím",
+                    type: "main",
+                    tags: ["vegetarian", "rice", "sweet"],
+                    nutrition: { energy: 600, fat: 12 }
+                    },
+
+                    {
+                    name: "Palacinky s tvarohom",
+                    type: "main",
+                    tags: ["vegetarian", "sweet", "dairy"],
+                    nutrition: { energy: 650, fat: 20 }
+                    },
+
+                    {
+                    name: "Buchty na pare s lekvárom",
+                    type: "main",
+                    tags: ["vegetarian", "sweet"],
+                    nutrition: { energy: 700, fat: 10 }
+                    },
+
+                    {
+                    name: "Zapekané zemiaky so syrom",
+                    type: "main",
+                    tags: ["vegetarian", "potatoes", "dairy"],
+                    nutrition: { energy: 680, fat: 25 }
+                    },
+
+                    {
+                    name: "Kuracie soté s cestovinou",
+                    type: "main",
+                    tags: ["meat", "chicken", "pasta"],
+                    nutrition: { energy: 620, fat: 20 }
+                    },
+
+                    {
+                    name: "Hovädzie na zelenine s ryžou",
+                    type: "main",
+                    tags: ["meat", "beef", "rice"],
+                    nutrition: { energy: 640, fat: 18 }
+                    },
+
+                    {
+                    name: "Ryba na masle s ryžou",
+                    type: "main",
+                    tags: ["fish", "meat", "rice"],
+                    nutrition: { energy: 580, fat: 20 }
+                    },
+
+                    {
+                    name: "Zeleninový kuskus",
+                    type: "main",
+                    tags: ["vegetarian", "light"],
+                    nutrition: { energy: 500, fat: 9 }
+                    },
+
+                    {
+                    name: "Stolová voda",
+                    type: "drink",
+                    drinktype: "water"
+                    },
+
+                    {
+                    name: "Minerálna voda",
+                    type: "drink",
+                    drinktype: "water"
+                    },
+
+                    {
+                    name: "Čaj nesladený",
+                    type: "drink",
+                    drinktype:  "tea"
+                    },
+
+                    {
+                    name: "Čaj s citrónom",
+                    type: "drink",
+                    drinktype:  "tea"
+                    },
+
+                    {
+                    name: "Bylinkový čaj",
+                    type: "drink",
+                    drinktype: "tea"
+                    },
+
+                    {
+                    name: "Mlieko",
+                    type: "drink",
+                    drinktype:  "milk"
+                    },
+
+                    {
+                    name: "Kakao",
+                    type: "drink",
+                    drinktype:  "milk"
+                    },
+
+                    {
+                    name: "Ochutené mlieko",
+                    type:  "drink",
+                    drinktype: "milk"
+                    },
+
+                    {
+                    name: "Ovocný džús",
+                    type: "drink",
+                    drinktype: "sweet_drink"
+                    },
+
+                    {
+                    name: "Sirupová voda",
+                    type: "drink",
+                    drinktype: "sweet_drink"
+                    }
+                ];
 
         const weekMenu = [
             { day: "Monday", soup: localStorage.getItem("mondaySoup"), main: localStorage.getItem("mondayMainCourse"), drink: localStorage.getItem("mondayDrink") },
@@ -114,13 +517,32 @@
 
         function buildMeals(weekMenu, mealsDB) {
             return weekMenu.map(day => ({
-                soup: mealsDB[day.soup],
-                main: mealsDB[day.main],
-                drink: day.drink
+                soup: mealsDB.find(m => m.name === day.soup),
+                main: mealsDB.find(m => m.name === day.main),
+                drink: mealsDB.find(m => m.name === day.drink)?.drinktype
             }));
             }
 
         const norms = [
+
+        {
+            text: "Žiadne jedlo sa nesmie opakovať počas týždňa.",
+            condition: (meals) => {
+                const names = new Set();
+
+                for (let m of meals) {
+                const items = [m.soup?.name, m.main?.name, m.drink];
+
+                for (let item of items) {
+                    if (!item) continue;
+                    if (names.has(item)) return false;
+                    names.add(item);
+                }
+                }
+
+                return true;
+            }
+            },
 
         {
         text: "V týždni musia byť 2–4 mäsové jedlá.",
@@ -368,20 +790,6 @@
         },
 
         {
-        text: "Nemôžu byť viac ako 2 dni bez zeleniny ako hlavnej zložky.",
-        condition: (meals) => {
-        let streak = 0;
-        for (let m of meals) {
-        if (!m.main.tags.includes("vegetables")) {
-        streak++;
-        if (streak > 2) return false;
-        } else streak = 0;
-        }
-        return true;
-        }
-        },
-
-        {
         text: "Musí byť aspoň 1 jedlo pripravené varením alebo dusením.",
         condition: (meals) =>
         meals.some(m =>
@@ -413,7 +821,25 @@
         const container = document.querySelector(".check-container");
 
         // 🔽 musíš mať meals pripravené
-        const meals = buildMeals(weekMenu, mealsDB);
+
+        function buildMeals(weekMenu, mealsDB) {
+            return weekMenu.map(day => {
+                const soup = mealsDB.find(m => m.name === day.soup);
+                const main = mealsDB.find(m => m.name === day.main);
+                const drinkObj = mealsDB.find(m => m.name === day.drink);
+
+                return {
+                soup,
+                main,
+                drink: drinkObj?.drinktype
+                };
+            });
+            }
+            const meals = buildMeals(weekMenu, mealsDB).filter(m => m.soup && m.main && m.drink);
+
+            if (meals.some(m => !m.soup || !m.main || !m.drink)) {
+                alert("Neúplný jedálny lístok");
+                }
 
         // Vytvorenie UI
         norms.forEach(norm => {

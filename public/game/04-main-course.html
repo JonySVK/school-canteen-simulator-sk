@@ -122,26 +122,205 @@ p {
 
 <script>
 const meals = [
-    { name: "Polievka 1", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievsfsg rfwedwwfzýdscgh uidbsgfud ihuszvgd rawuehduc szvgrzýdgzuc svdfka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" },
-    { name: "Polievka 2", img: "https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg" }
+
+{
+  name: "Kuracie prsia na prírodno s ryžou",
+  tags: ["meat", "chicken", "rice", "light", "boiled"],
+  nutrition: { energy: 550, fat: 12 }
+},
+
+{
+  name: "Bravčový rezeň so zemiakmi",
+  tags: ["meat", "pork", "potatoes", "fried", "heavy"],
+  nutrition: { energy: 800, fat: 35 }
+},
+
+{
+  name: "Hovädzí guláš s knedľou",
+  tags: ["meat", "beef", "dumplings", "heavy"],
+  nutrition: { energy: 750, fat: 28 }
+},
+
+{
+  name: "Kuracie stehno na paprike s cestovinou",
+  tags: ["meat", "chicken", "pasta"],
+  nutrition: { energy: 680, fat: 22 }
+},
+
+{
+  name: "Ryba pečená so zemiakmi",
+  tags: ["fish", "meat", "potatoes", "light", "steamed"],
+  nutrition: { energy: 520, fat: 14 }
+},
+
+{
+  name: "Šošovicový prívarok s vajcom a chlebom",
+  tags: ["legumes", "vegetarian", "heavy"],
+  nutrition: { energy: 620, fat: 18 }
+},
+
+{
+  name: "Fazuľový prívarok s klobásou a chlebom",
+  tags: ["legumes", "meat", "heavy"],
+  nutrition: { energy: 720, fat: 30 }
+},
+
+{
+  name: "Zeleninové rizoto so syrom",
+  tags: ["vegetarian", "rice", "dairy", "light"],
+  nutrition: { energy: 560, fat: 15 }
+},
+
+{
+  name: "Kurací rezeň s ryžou",
+  tags: ["meat", "chicken", "rice", "fried"],
+  nutrition: { energy: 720, fat: 28 }
+},
+
+{
+  name: "Bravčové na šťave so zemiakovou kašou",
+  tags: ["meat", "pork", "potatoes"],
+  nutrition: { energy: 690, fat: 24 }
+},
+
+{
+  name: "Hovädzie mäso varené s ryžou",
+  tags: ["meat", "beef", "rice", "boiled", "light"],
+  nutrition: { energy: 530, fat: 10 }
+},
+
+{
+  name: "Zapekané cestoviny so syrom",
+  tags: ["vegetarian", "pasta", "dairy", "heavy"],
+  nutrition: { energy: 750, fat: 32 }
+},
+
+{
+  name: "Zemiakové placky",
+  tags: ["vegetarian", "potatoes", "fried"],
+  nutrition: { energy: 650, fat: 26 }
+},
+
+{
+  name: "Kuracie soté s ryžou",
+  tags: ["meat", "chicken", "rice"],
+  nutrition: { energy: 600, fat: 18 }
+},
+
+{
+  name: "Bravčové výpečky s kapustou a knedľou",
+  tags: ["meat", "pork", "dumplings", "heavy"],
+  nutrition: { energy: 820, fat: 36 }
+},
+
+{
+  name: "Rybie filé so zemiakovou kašou",
+  tags: ["fish", "meat", "potatoes"],
+  nutrition: { energy: 560, fat: 16 }
+},
+
+{
+  name: "Špenát s vajcom a zemiakmi",
+  tags: ["vegetarian", "potatoes", "light"],
+  nutrition: { energy: 520, fat: 14 }
+},
+
+{
+  name: "Kuracie prsia na bylinkách s ryžou",
+  tags: ["meat", "chicken", "rice", "light"],
+  nutrition: { energy: 540, fat: 12 }
+},
+
+{
+  name: "Zeleninové rizoto s kuracím mäsom",
+  tags: ["meat", "chicken", "rice", "reduced_meat", "light"],
+  nutrition: { energy: 540, fat: 12 }
+},
+
+{
+  name: "Cestoviny s kuracím mäsom a zeleninou",
+  tags: ["meat", "chicken", "pasta", "reduced_meat"],
+  nutrition: { energy: 600, fat: 18 }
+},
+
+{
+  name: "Zeleninový bulgur s kúskami bravčového mäsa",
+  tags: ["meat", "pork", "reduced_meat", "light"],
+  nutrition: { energy: 560, fat: 14 }
+},
+
+{
+  name: "Cestoviny s paradajkovou omáčkou",
+  tags: ["vegetarian", "pasta", "light"],
+  nutrition: { energy: 500, fat: 10 }
+},
+
+{
+  name: "Hrachová kaša s údeným mäsom a chlebom",
+  tags: ["legumes", "meat", "heavy"],
+  nutrition: { energy: 700, fat: 28 }
+},
+
+{
+  name: "Zeleninové fašírky so zemiakmi",
+  tags: ["vegetarian", "potatoes"],
+  nutrition: { energy: 580, fat: 18 }
+},
+
+{
+  name: "Kuracie stehno pečené so zemiakmi",
+  tags: ["meat", "chicken", "potatoes"],
+  nutrition: { energy: 650, fat: 22 }
+},
+
+{
+  name: "Ryžový nákyp s ovocím",
+  tags: ["vegetarian", "rice", "sweet"],
+  nutrition: { energy: 600, fat: 12 }
+},
+
+{
+  name: "Palacinky s tvarohom",
+  tags: ["vegetarian", "sweet", "dairy"],
+  nutrition: { energy: 650, fat: 20 }
+},
+
+{
+  name: "Buchty na pare s lekvárom",
+  tags: ["vegetarian", "sweet"],
+  nutrition: { energy: 700, fat: 10 }
+},
+
+{
+  name: "Zapekané zemiaky so syrom",
+  tags: ["vegetarian", "potatoes", "dairy"],
+  nutrition: { energy: 680, fat: 25 }
+},
+
+{
+  name: "Kuracie soté s cestovinou",
+  tags: ["meat", "chicken", "pasta"],
+  nutrition: { energy: 620, fat: 20 }
+},
+
+{
+  name: "Hovädzie na zelenine s ryžou",
+  tags: ["meat", "beef", "rice"],
+  nutrition: { energy: 640, fat: 18 }
+},
+
+{
+  name: "Ryba na masle s ryžou",
+  tags: ["fish", "meat", "rice"],
+  nutrition: { energy: 580, fat: 20 }
+},
+
+{
+  name: "Zeleninový kuskus",
+  tags: ["vegetarian", "light"],
+  nutrition: { energy: 500, fat: 9 }
+}
+
 ];
 
 let mealData = {
@@ -162,7 +341,7 @@ meals.forEach((meal, index) => {
 
     div.innerHTML = `
         <div class="drag-handle">⋮</div>
-        <img src="${meal.img}">
+        ${meal.img ? `<img src="${meal.img}">` : ''}
         <div>${meal.name}</div>
     `;
 
