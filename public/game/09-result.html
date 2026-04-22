@@ -6,6 +6,8 @@
     <title>Simulátor školskej jedálne</title>
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <link rel="stylesheet" href="../style.css">
+    <script src="../firebase.js" type="module"></script>
+
     <style>
         body {
             margin: 0;
@@ -123,7 +125,9 @@
         <p style="font-size: 2vh;"><i>* Poznámka: V tejto hre sú použité len vybrané normy. V realite ich jedálne musia spĺňať oveľa viac.</i></p>
     </div>
 
-    <script>
+    <script type="module">
+        import { saveGameResult } from "../gameResults.js";
+
         // Príklad noriem zo stránky checking.html
         const norms = JSON.parse(localStorage.getItem("normResults"));
 
@@ -165,6 +169,24 @@
                 toggleBtn.textContent = "▼ Zobraziť splnené";
             }
         });
+
+        async function endGame() {
+            const percent = Math.round((passedNorms / totalNorms) * 100);
+
+            await saveGameResult({
+                percent,
+                studentName: localStorage.getItem("studentName"),
+                className: localStorage.getItem("studentClass"),
+                code: localStorage.getItem("studentCode"),
+                schoolId: localStorage.getItem("studentSchool")
+            });
+
+            localStorage.setItem("saved", "true");
+        }
+
+        endGame();
+
+        localStorage.setItem("saved", "true");
     </script>
 </body>
 </html>

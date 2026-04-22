@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simulátor školskej jedálne</title>
 <link rel="icon" type="image/x-icon" href="../favicon.ico">
+<script src="../firebase.js" type="module"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
 
@@ -121,6 +122,8 @@ p {
 <p>Potiahnutím presuň Tebou vybranú polievku do konkrétneho dňa.</p>
 
 <script>
+    localStorage.setItem("saved", "false");
+
 const meals = [
         {
         name: "Zeleninová polievka",
