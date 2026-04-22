@@ -6,7 +6,7 @@
     <title>Simulátor školskej jedálne</title>
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <link rel="stylesheet" href="../style.css">
-    <script src="../firebase.js" type="module"></script>
+    <script src="firebase.js" type="module"></script>
 
     <style>
         body {
@@ -119,14 +119,14 @@
 
         <div class="footer-buttons">
             <button onclick="location.href='03-soup.html'">SKÚSIŤ ZNOVA</button>
-            <button onclick="location.href='10-end1.html'">UKONČIŤ HRU</button>
+            <button onclick="localStorage.clear(); window.location.href = '10-end1.html';">UKONČIŤ HRU</button>
         </div>
 
         <p style="font-size: 2vh;"><i>* Poznámka: V tejto hre sú použité len vybrané normy. V realite ich jedálne musia spĺňať oveľa viac.</i></p>
     </div>
 
     <script type="module">
-        import { saveGameResult } from "../gameResults.js";
+        import { saveGameResult } from "./gameResults.js";
 
         // Príklad noriem zo stránky checking.html
         const norms = JSON.parse(localStorage.getItem("normResults"));
@@ -181,10 +181,11 @@
                 schoolId: localStorage.getItem("studentSchool")
             });
 
-            localStorage.setItem("saved", "true");
         }
 
-        endGame();
+        if (localStorage.getItem("saved") !== "true") {
+            endGame();
+        }
 
         localStorage.setItem("saved", "true");
     </script>

@@ -6,8 +6,8 @@
     <title>Simulátor školskej jedálne</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
-    <script src="/firebase.js" type="module"></script>
-    
+    <script src="game/firebase.js" type="module"></script>
+
     <style>
         body {
             margin: 0;
@@ -57,13 +57,13 @@
     <p style="margin-top: -1.5vh;">Ako žiak sa do hry prihlasuj iba v prípade, že ťa na to vyzvala Tvoja škola.<br>V opačnom prípade pokračuj <a href="game/1-intro1.html">sem a začni hru</a>.</p>
 
     <form id="studentForm">
-        <select required>
+        <select id="schoolSelect" required>
             <option value="" disabled>Vyber školu *</option>
             <option value="Spojená škola Svätej Rodiny" selected>Spojená škola Svätej Rodiny</option>
         </select>
-        <input type="text" placeholder="Meno *" required>
-        <input type="text" placeholder="Trieda *" required>
-        <input type="number" placeholder="Kód (ak si dostal)">
+        <input type="text" id="studentName" placeholder="Meno *" required>
+        <input type="text" id="studentClass" placeholder="Trieda *" required>
+        <input type="number" id="studentCode" placeholder="Kód (ak si dostal)">
         
         <input type="submit" value="POKRAČOVAŤ">
     </form>
@@ -76,11 +76,10 @@
 document.getElementById("studentForm").addEventListener("submit", function(e) {
     e.preventDefault();
 
-    const inputs = this.querySelectorAll("input");
-    const skola = inputs[0].value;
-    const meno = inputs[1].value;
-    const trieda = inputs[2].value;
-    const kod = inputs[3].value;
+    const skola = this.querySelector("#schoolSelect").value;
+    const meno = this.querySelector("#studentName").value;
+    const trieda = this.querySelector("#studentClass").value;
+    const kod = this.querySelector("#studentCode").value;
 
     if (!meno || !trieda) {
         alert("Vyplň povinné polia!");
