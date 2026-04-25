@@ -90,7 +90,7 @@ body {
 }
 
 .remove {
-    color: red;
+    color: lightcoral;
     cursor: pointer;
 }
 
@@ -104,7 +104,7 @@ p {
 <body>
 
 <div class="header">
-    <button class="back-btn" onclick="window.location.href = '03-soup.html'">Späť</button>
+    <button class="back-btn" onclick="window.location.href = '04-main-course.html'">Späť</button>
     <h1 style="text-align: center;">Vyber nápoj na každý deň.</h1>
     <button class="continue-btn" onclick="nextPage()">Pokračovať</button>
 </div>
@@ -224,56 +224,96 @@ document.querySelectorAll(".day").forEach(day => {
         forceFallback: false,   // 🔥 KLÚČOVÉ FIX
 
         onAdd: function (evt) {
+          const index = evt.item.dataset.index;
+          const meal = meals[index];
 
-            const index = evt.item.dataset.index;
-            const meal = meals[index];
+          const dayName = evt.to.dataset.day?.trim();
 
-            const dayName = evt.to.dataset.day;
+          const storageKeys = {
+              Pondelok: "mondayDrink",
+              Utorok: "tuesdayDrink",
+              Streda: "wednesdayDrink",
+              Štvrtok: "thursdayDrink",
+              Piatok: "fridayDrink"
+          };
 
-            evt.item.remove(); // 🔥 zabráni lag + ghost item
+          const key = storageKeys[dayName];
 
-            mealData[dayName] = meal;
+          evt.item.remove(); // 🔥 UI fix
 
-            render(day);
-        }
+          // 🧠 ulož do pamäte
+          mealData[dayName] = meal;
+
+          // 💾 ulož do localStorage
+          if (key) {
+              localStorage.setItem(key, meal.name); 
+              // ak chceš ukladať celý objekt:
+              // localStorage.setItem(key, JSON.stringify(meal));
+          } else {
+              console.warn("Neznámy deň:", dayName);
+          }
+
+          render(evt.to); // ⚠️ nie "day", ale konkrétny element
+      }
     });
 });
 
 function render(dayEl) {
-    const name = dayEl.dataset.day;
+    const name = dayEl.dataset.day?.trim();
+
+    const storageKeys = {
+        Pondelok: "mondayDrink",
+        Utorok: "tuesdayDrink",
+        Streda: "wednesdayDrink",
+        Štvrtok: "thursdayDrink",
+        Piatok: "fridayDrink"
+    };
+
+    const key = storageKeys[name];
+    const storedMeal = key ? localStorage.getItem(key) : null;
     const meal = mealData[name];
 
-    if (!meal) {
-        dayEl.innerHTML = "";
-        return;
+    // 🟢 PRIORITA: localStorage
+    const finalMeal = storedMeal || (meal ? meal.name : null);
+
+    // 🧱 základ
+    let content = `<div>${name}</div>`;
+
+    if (finalMeal) {
+        content += `
+        <div>
+            <b>Nápoj:</b> <span class="remove">✖</span><br>
+            ${finalMeal}
+        </div>`;
     }
 
-    dayEl.innerHTML = `
-        <div>${name}</div>
-        <div>
-            <b>Nápoj:</b> <span class="remove">✖</span>
-            <br>
-            ${meal.name}
-        </div>
-    `;
+    dayEl.innerHTML = content;
 
-    dayEl.querySelector(".remove").onclick = () => {
-        mealData[name] = null;
-        render(dayEl);
-    };
+    // ❌ remove (zmaže aj localStorage aj mealData)
+    const removeBtn = dayEl.querySelector(".remove");
+    if (removeBtn) {
+        removeBtn.onclick = () => {
+            if (key) localStorage.removeItem(key);
+            mealData[name] = null;
+            render(dayEl);
+        };
+    }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const days = document.querySelectorAll("[data-day]");
+    days.forEach(dayEl => render(dayEl));
+});
+
 function nextPage() {
-    if (Object.values(mealData).includes(null)) {
+    if (localStorage.getItem("mondayDrink") === null ||
+        localStorage.getItem("tuesdayDrink") === null ||
+        localStorage.getItem("wednesdayDrink") === null ||
+        localStorage.getItem("thursdayDrink") === null ||
+        localStorage.getItem("fridayDrink") === null) {
         alert("Vyber nápoj pre každý deň!");
         return;
     }
-
-    localStorage.setItem("mondayDrink", mealData.Pondelok.name);
-    localStorage.setItem("tuesdayDrink", mealData.Utorok.name);
-    localStorage.setItem("wednesdayDrink", mealData.Streda.name);
-    localStorage.setItem("thursdayDrink", mealData.Štvrtok.name);
-    localStorage.setItem("fridayDrink", mealData.Piatok.name);
 
     window.location.href = "06-summary.html";
 }

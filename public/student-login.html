@@ -68,11 +68,21 @@
         <input type="submit" value="POKRAČOVAŤ">
     </form>
 
-    <p style="margin-top: 5vh;">Ak máte záujem ako škola používať túto hru a mať prístup k výsledkom svojich žiakov, kontaktujte ma prosím na <a href="mailto:ivicic.dev@gmail.com">ivicic.dev@gmail.com</a>. Táto funkcia je dostupná zadarmo.</p>
+    <!--<p style="margin-top: 5vh;">Ak máte záujem ako škola používať túto hru a mať prístup k výsledkom svojich žiakov, kontaktujte ma prosím na <a href="mailto:ivicic.dev@gmail.com">ivicic.dev@gmail.com</a>. Táto funkcia je dostupná zadarmo.</p>-->
 </div>
 
 
-<script>
+<script type="module">
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+    if (!user) {
+        window.location.href = "index.html"; // alebo login page
+    }
+    });
+
 document.getElementById("studentForm").addEventListener("submit", function(e) {
     e.preventDefault();
 

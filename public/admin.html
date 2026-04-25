@@ -116,6 +116,15 @@
     <div id="stats"></div>
 
     <script type="module">
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const auth = getAuth();
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "index.html"; // alebo login page
+  }
+});
 
 import { db } from "./game/firebase.js";
 import { collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -138,7 +147,7 @@ async function fetchData({ code, school }) {
 
   const constraints = [];
 
-  if (code) constraints.push(where("code", "==", code));
+  if (code) constraints.push(where("code", "==", String(code)));
   if (school) constraints.push(where("schoolId", "==", school));
 
   // 🔥 orderBy vždy (ak chceš stabilné výsledky)
@@ -176,7 +185,7 @@ function render(data) {
     div.className = "card";
 
     div.innerHTML = `
-      <strong>${item.name || "Anonym"}</strong><br>
+      <strong>${item.studentName || "Anonym"}</strong><br>
       Správnosť: ${item.percent || "-"} %<br>
     `;
 

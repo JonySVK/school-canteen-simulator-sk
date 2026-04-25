@@ -137,7 +137,7 @@
         const totalNorms = norms.length;
         const passedNorms = norms.filter(n => n.passed).length;
 
-        document.getElementById("score").textContent = `Tvoj jedálniček splnil ${passedNorms} zo ${totalNorms} noriem.`;
+        document.getElementById("score").textContent = `Tvoj jedálniček splnil ${passedNorms} z ${totalNorms} noriem.`;
 
         if (totalNorms === passedNorms) {
             document.getElementById("result-message").textContent = "Gratulujeme! Tvoj jedálniček splnil všetky normy! Jedáleň by ho mohla uvariť.";
