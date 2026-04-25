@@ -1,3 +1,5 @@
+// Created by Jan Ivicic © 2026
+
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { db } from "./firebase.js";
 

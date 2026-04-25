@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Created by Jan Ivicic © 2026 -->
 <html lang="sk">
 <head>
     <meta charset="UTF-8">
@@ -17,6 +18,23 @@
         <button>UKONČIŤ HRU</button>
     </a>
 </div>
+
+<script>
+    function checkOrientation() {
+        const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+        const alreadyShown = sessionStorage.getItem("orientationAlertShown");
+
+        if (isPortrait && !alreadyShown) {
+            alert("Odporúčame hrať v režime na šírku (landscape) pre lepšie zobrazovanie a ovládanie hry.");
+
+            // uložíme, že už sme ukázali
+            sessionStorage.setItem("orientationAlertShown", "true");
+        }
+    }
+
+    window.addEventListener("resize", checkOrientation);
+    checkOrientation();
+</script>
 
 </body>
 </html>
